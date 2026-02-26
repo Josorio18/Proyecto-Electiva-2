@@ -1,4 +1,5 @@
-(function(){
+document.addEventListener("DOMContentLoaded", function(){
+
 	const form = document.getElementById('loginForm');
 	const email = document.getElementById('email');
 	const password = document.getElementById('password');
@@ -41,4 +42,4 @@
 
 		setTimeout(()=> window.location.href = 'index.html', 700);
 	});
-})();
+});
