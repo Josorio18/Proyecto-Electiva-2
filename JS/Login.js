@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function(){
+(function(){
 
 	const form = document.getElementById('loginForm');
 	const email = document.getElementById('email');
@@ -42,4 +42,4 @@ document.addEventListener("DOMContentLoaded", function(){
 
 		setTimeout(()=> window.location.href = 'index.html', 700);
 	});
-});
+})();
