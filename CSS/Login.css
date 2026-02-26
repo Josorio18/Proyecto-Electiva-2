@@ -68,3 +68,19 @@ a.small{
     color: #0078d4;
     text-decoration: none;
 }
+
+.form-actions{
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+button.secondary{
+    flex: 0 0 40%;
+    background: #e0e0e0;
+    color: #111;
+}
+
+button[type="submit"]{
+    flex: 1 1 auto;
+}
