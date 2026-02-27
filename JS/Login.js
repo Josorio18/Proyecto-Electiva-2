@@ -49,7 +49,7 @@
 			sessionStorage.setItem('user', mail);
 		}
 
-		// Redirigir directamente a la página principal (como el botón Volver)
+		// Redirigir directamente a la página principal 
 		window.location.href = 'index.html';
 	});
 
