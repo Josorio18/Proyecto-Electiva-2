@@ -37,23 +37,11 @@
 
 	form.addEventListener('submit', function(ev){
 		ev.preventDefault();
-		hideErrors();
 
-		const mail = email.value.trim();
-		const pass = password.value.trim();
-
-		// Validar email y contraseña
-		if(!validarEmail(mail)){
-			showError(emailError, 'Introduce un correo válido.');
-			return;
-		}
-
-		if(pass.length === 0){
-			showError(passError, 'Introduce la contraseña.');
-			return;
-		}
 
 		// Guardar credenciales si se marca "Recuérdame"
+		const mail = email.value.trim();
+		const pass = password.value.trim();		
 		if(remember.checked){
 			localStorage.setItem('rememberedCredentials', JSON.stringify({email: mail, password: pass}));
 			localStorage.setItem('user', mail);
@@ -61,12 +49,7 @@
 			sessionStorage.setItem('user', mail);
 		}
 
-		// Cambiar estado del botón
-		const btn = form.querySelector('button[type="submit"]');
-		btn.textContent = 'Entrando...';
-		btn.disabled = true;
-
-		// Redirigir a la página principal
+		// Redirigir directamente a la página principal (como el botón Volver)
 		window.location.href = 'index.html';
 	});
 
