@@ -20,11 +20,10 @@
 			password.value = saved.password || '';
 			remember.checked = true;
 		} else {
-			// legacy key `user` (solo email)
 			const legacy = localStorage.getItem('user') || sessionStorage.getItem('user');
 			if(legacy) email.value = legacy;
 		}
-	} catch(e){/* ignore */}
+	} catch(e){}
 
 	function showError(el, text){
 		el.textContent = text;
@@ -39,49 +38,36 @@
 	form.addEventListener('submit', function(ev){
 		ev.preventDefault();
 		hideErrors();
-		let ok = true;
 
 		const mail = email.value.trim();
 		const pass = password.value.trim();
 
+		// Validar email y contraseña
 		if(!validarEmail(mail)){
 			showError(emailError, 'Introduce un correo válido.');
-			ok = false;
+			return;
 		}
 
 		if(pass.length === 0){
 			showError(passError, 'Introduce la contraseña.');
-			ok = false;
+			return;
 		}
 
-		if(!ok) return;
-
-		// If a registered user exists, require matching credentials
-		const registered = JSON.parse(localStorage.getItem('registeredUser') || 'null');
-		if(registered){
-			if(registered.email !== mail || registered.password !== pass){
-				showError(passError, 'Correo o contraseña incorrectos.');
-				return;
-			}
-		}
-
-		// store based on "remember"
+		// Guardar credenciales si se marca "Recuérdame"
 		if(remember.checked){
 			localStorage.setItem('rememberedCredentials', JSON.stringify({email: mail, password: pass}));
-			// keep a simple `user` key for compatibility
 			localStorage.setItem('user', mail);
 		} else {
 			sessionStorage.setItem('user', mail);
-			localStorage.removeItem('rememberedCredentials');
 		}
 
+		// Cambiar estado del botón
 		const btn = form.querySelector('button[type="submit"]');
 		btn.textContent = 'Entrando...';
 		btn.disabled = true;
 
-		setTimeout(()=> window.location.href = 'index.html', 700);
+		// Redirigir a la página principal
+		window.location.href = 'index.html';
 	});
-
-	// Nota: la funcionalidad de registro se ha eliminado; solo queda iniciar sesión.
 
 })();
