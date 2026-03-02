@@ -1,0 +1,56 @@
+(function(){
+
+	const form = document.getElementById('loginForm');
+	const email = document.getElementById('email');
+	const password = document.getElementById('password');
+	const emailError = document.getElementById('emailError');
+	const passError = document.getElementById('passError');
+	const remember = document.getElementById('remember');
+
+	function validarEmail(e){
+		const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return re.test(e);
+	}
+
+	// Prefill if remembered
+	try{
+		const saved = JSON.parse(localStorage.getItem('rememberedCredentials') || 'null');
+		if(saved && saved.email){
+			email.value = saved.email;
+			password.value = saved.password || '';
+			remember.checked = true;
+		} else {
+			const legacy = localStorage.getItem('user') || sessionStorage.getItem('user');
+			if(legacy) email.value = legacy;
+		}
+	} catch(e){}
+
+	function showError(el, text){
+		el.textContent = text;
+		el.style.display = 'block';
+	}
+
+	function hideErrors(){
+		emailError.style.display = 'none';
+		passError.style.display = 'none';
+	}
+
+	form.addEventListener('submit', function(ev){
+		ev.preventDefault();
+
+
+		// Guardar credenciales si se marca "Recuérdame"
+		const mail = email.value.trim();
+		const pass = password.value.trim();		
+		if(remember.checked){
+			localStorage.setItem('rememberedCredentials', JSON.stringify({email: mail, password: pass}));
+			localStorage.setItem('user', mail);
+		} else {
+			sessionStorage.setItem('user', mail);
+		}
+
+		// Redirigir directamente a la página principal 
+		window.location.href = 'index.html';
+	});
+
+})();
