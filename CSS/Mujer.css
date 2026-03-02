@@ -1,0 +1,78 @@
+/* Estilos básicos para la sección de mujeres */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+.product-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 250px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+}
+
+.product-card .price {
+    font-size: 1.2em;
+    color: #27ae60;
+    margin: 10px 0;
+}
+
+.product-card .size-select {
+    margin: 5px 0 10px;
+    width: 100%;
+    padding: 5px;
+}
+
+.buy-button {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 1em;
+}
+
+.buy-button:hover {
+    background: #c0392b;
+}
