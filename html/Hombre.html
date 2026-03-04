@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sección Hombres</title>
+    <link rel="stylesheet" href="../CSS/style.css">
     <link rel="stylesheet" href="../CSS/Decoracion.css">
 </head>
 <body>
@@ -11,7 +12,7 @@
         <h1>Ropa para Hombres</h1>
         <nav>
             <a href="index.html">Inicio</a>
-            <a href="Hombre.html">Hombres</a>
+            <a href="Hombre.html" class="active">Hombres</a>
             <a href="Mujer.html">Mujeres</a>
             <a href="Accesorios.html">Accesorios</a>
             <a href="Carrito.html">Carrito</a>
@@ -20,10 +21,48 @@
     </header>
 
     <main class="products">
-        <p>Aquí encontrarás la colección de ropa para hombres.</p>
+        <!-- Algunos productos de ejemplo para la sección hombres -->
+        <article class="product-card">
+            <img src="https://source.unsplash.com/400x400/?mens-shirt" alt="Camisa Casual">
+            <h2>Camisa Casual</h2>
+            <p class="price">$39.99</p>
+            <label for="msize1">Talla:</label>
+            <select id="msize1" class="size-select">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+            </select>
+            <button class="buy-button">Añadir al carrito</button>
+        </article>
+        <article class="product-card">
+            <img src="https://source.unsplash.com/400x400/?mens-pants" alt="Pantalón de Jeans">
+            <h2>Pantalón de Jeans</h2>
+            <p class="price">$49.99</p>
+            <label for="msize2">Talla:</label>
+            <select id="msize2" class="size-select">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+            </select>
+            <button class="buy-button">Añadir al carrito</button>
+        </article>
+        <article class="product-card">
+            <img src="https://source.unsplash.com/400x400/?mens-jacket" alt="Chaqueta Urbano">
+            <h2>Chaqueta Urbano</h2>
+            <p class="price">$69.99</p>
+            <label for="msize3">Talla:</label>
+            <select id="msize3" class="size-select">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+            </select>
+            <button class="buy-button">Añadir al carrito</button>
+        </article>
     </main>
 
     <script src="../JS/app.js"></script>
     <script src="../JS/Carrito.js" defer></script>
+    <a href="Carrito.html" class="btn-ver-carrito">🛒</a>
+    <footer>© 2026 UrbanStyle. Todos los derechos reservados.</footer>
 </body>
 </html>
