@@ -22,6 +22,7 @@
         cart.push(item);
         saveCart(cart);
         alert('Producto agregado al carrito');
+        if(typeof updateCartBadge === 'function') updateCartBadge();
     };
 
     function renderCart() {
@@ -79,6 +80,7 @@
         cart.push(item);
         saveCart(cart);
         alert('Producto agregado al carrito');
+        if(typeof updateCartBadge === 'function') updateCartBadge();
     };
 
     document.addEventListener('click', function(e){

@@ -1,11 +1,16 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
-    background: #7c9aee;
+    /* suave degradado de fondo para login */
+    background: linear-gradient(135deg, #7c9aee 0%, #72caff 100%);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
+}
+
+/* center card within body but prevent it from stretching (main flex:1 override) */
+main.card {
+    flex: none;
 }
 
 .card{
@@ -14,6 +19,14 @@ body{
     border-radius: 8px;
     box-shadow: 0 6px 18px rgba(0,0,0,.08);
     width: 320px;
+    margin: auto;
+}
+
+/* push footer to bottom */
+footer {
+    margin-top: auto;
+    text-align: center;
+    color: var(--header-text);
 }
 
 h1{
@@ -56,8 +69,8 @@ button{
     width: 100%;
     padding: 10px;
     margin-top: 14px;
-    background: #0078d4;
-    color: #fff;
+    background: var(--primary-color);
+    color: var(--secondary-color);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -65,7 +78,7 @@ button{
 
 a.small{
     font-size: 13px;
-    color: #0078d4;
+    color: var(--primary-color);
     text-decoration: none;
 }
 

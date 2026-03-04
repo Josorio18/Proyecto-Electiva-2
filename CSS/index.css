@@ -36,6 +36,7 @@ header {
 .about h3 {
     font-size: 2rem;
     margin-bottom: 15px;
+    color: var(--accent-color);
 }
 
 .about p {
