@@ -1,0 +1,60 @@
+/* Estilos específicos para la página de inicio (index.html) */
+
+/* eliminar cualquier espacio entre el header y el héroe */
+header {
+    margin-bottom: 0;
+}
+
+.hero {
+    position: relative;
+    color: rgb(59, 62, 66);
+    text-align: center;
+    padding: 0; /* quita relleno superior para pegarse al header */
+    overflow: hidden;
+    margin-top: 0;
+}
+
+/* solo imagen en el héroe; el resto ya no se usa */
+.hero-only-img {
+    width: 100%;
+    /* limita la altura para que no ocupe tanto espacio en pantalla */
+    max-height: 400px;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    /* opcional: centra la imagen si queda recortada verticalmente */
+    margin: 0 auto;
+}
+
+.about {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.about h3 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.about p {
+    line-height: 1.6;
+    color: #333;
+}
+
+.image-gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.image-gallery img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+}
