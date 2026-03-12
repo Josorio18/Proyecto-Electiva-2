@@ -55,7 +55,7 @@
 			localStorage.removeItem('rememberedCredentials');
 		}
 		localStorage.setItem('currentUser', mail);
-		localStorage.setItem('currentUserName', user.name);
+		localStorage.setItem('currentUserName', user.name || mail.split('@')[0]);
 
 		window.location.href = 'index.html';
 	});
