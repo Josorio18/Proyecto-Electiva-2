@@ -63,8 +63,22 @@
 		} else {
 			localStorage.removeItem('rememberedCredentials');
 		}
+		
+		// Fusionar carrito del guest al nuevo usuario
+		const guestCart = JSON.parse(localStorage.getItem('shoppingCart_guest') || '[]');
 		localStorage.setItem('currentUser', mail);
 		localStorage.setItem('currentUserName', user.name || mail.split('@')[0]);
+		
+		if (guestCart.length > 0) {
+			// El actual usuario logueado
+			const userCartKey = 'shoppingCart_' + mail;
+			let userCart = JSON.parse(localStorage.getItem(userCartKey) || '[]');
+			
+			// Unir carritos (se podria agrupar por cantidades pero un .concat es seguro para empezar)
+			userCart = userCart.concat(guestCart);
+			localStorage.setItem(userCartKey, JSON.stringify(userCart));
+			localStorage.removeItem('shoppingCart_guest'); // Limpiar el guest cart
+		}
 
 		window.location.replace('index.html');
 	});

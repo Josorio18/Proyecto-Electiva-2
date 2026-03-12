@@ -42,9 +42,17 @@
         users.push(newUser);
         localStorage.setItem('usersMarketplace', JSON.stringify(users));
 
-        // Iniciar sesión automáticamente
+        // Fusionar carrito del guest al nuevo usuario
+        const guestCart = JSON.parse(localStorage.getItem('shoppingCart_guest') || '[]');
         localStorage.setItem('currentUser', email);
         localStorage.setItem('currentUserName', name);
+        
+        if (guestCart.length > 0) {
+            const userCartKey = 'shoppingCart_' + email;
+            // Para registro es usuario nuevo seguro el carrito nativo está vacío
+            localStorage.setItem(userCartKey, JSON.stringify(guestCart));
+            localStorage.removeItem('shoppingCart_guest'); // Limpiar
+        }
 
         alert('Registro exitoso! Iniciando sesión...');
         window.location.replace('index.html');

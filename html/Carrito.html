@@ -24,6 +24,9 @@
 
     <main>
         <h2>Carrito de <span id="userName">Invitado</span></h2>
+        <div id="guestPromo" style="display: none; background-color: #f0f8ff; border: 1px solid #b3d4fc; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;">
+            <p style="margin: 0; color: #333; font-size: 0.95em;">💡 ¿Aún no tienes cuenta? <a href="Registro.html" style="color: var(--primary-color); font-weight: bold; text-decoration: none;">Regístrate</a> o <a href="Login.html" style="color: var(--primary-color); font-weight: bold; text-decoration: none;">Inicia Sesión</a> para guardar tu carrito y comprar más rápido.</p>
+        </div>
         <div id="cartItems"></div>
         <div id="cartSummary" class="cart-summary"></div>
     </main>
@@ -49,6 +52,22 @@
             </div>
 
             <form id="paymentForm">
+                <div class="shipping-details" id="shippingDetailsBlock" style="background: #fdfdfd; padding: 15px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 20px;">
+                    <label for="shipAddress" style="display: block; margin: 10px 0 5px; font-size: 0.9em; color: #555;">Dirección de Envío</label>
+                    <input type="text" id="shipAddress" placeholder="Calle 123 #45-67" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;">
+                    
+                    <div class="card-row" style="display: flex; gap: 10px; margin-top: 10px;">
+                        <div class="card-col" style="flex: 1;">
+                            <label for="shipCity" style="display: block; margin: 0 0 5px; font-size: 0.9em; color: #555;">Ciudad</label>
+                            <input type="text" id="shipCity" placeholder="Bogotá" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;">
+                        </div>
+                        <div class="card-col" style="flex: 1;">
+                            <label for="shipPhone" style="display: block; margin: 0 0 5px; font-size: 0.9em; color: #555;">Teléfono</label>
+                            <input type="text" id="shipPhone" placeholder="300 000 0000" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card-details" id="cardDetailsBlock">
                     <label for="cardNumber">Número de Tarjeta</label>
                     <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">

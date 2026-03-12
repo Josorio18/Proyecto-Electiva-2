@@ -70,8 +70,14 @@
         const user = getCurrentUser();
         const userName = localStorage.getItem('currentUserName');
         const el = document.getElementById('userName');
-        if(el) {
-            el.textContent = user === 'guest' ? 'Invitado' : (userName || user.split('@')[0]);
+        const promo = document.getElementById('guestPromo');
+
+        if (user === 'guest') {
+            if(el) el.textContent = 'Invitado';
+            if(promo) promo.style.display = 'block';
+        } else {
+            if(el) el.textContent = userName || user.split('@')[0];
+            if(promo) promo.style.display = 'none';
         }
     }
 
