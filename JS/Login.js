@@ -1,7 +1,11 @@
 (function () {
 	// Redirigir si ya hay un usuario logueado
 	if (localStorage.getItem('currentUser')) {
-		window.location.href = 'index.html';
+		if (window.history.length > 2) {
+			window.history.back();
+		} else {
+			window.location.replace('index.html');
+		}
 		return;
 	}
 
@@ -62,7 +66,7 @@
 		localStorage.setItem('currentUser', mail);
 		localStorage.setItem('currentUserName', user.name || mail.split('@')[0]);
 
-		window.location.href = 'index.html';
+		window.location.replace('index.html');
 	});
 
 })();

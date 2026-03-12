@@ -7,6 +7,15 @@
     <title>Registro - UrbanStyle</title>
     <link rel="stylesheet" href="../CSS/style.css">
     <link rel="stylesheet" href="../CSS/Login.css">
+    <script>
+        if (localStorage.getItem('currentUser')) {
+            if (window.history.length > 2) {
+                window.history.back();
+            } else {
+                window.location.replace('index.html');
+            }
+        }
+    </script>
 </head>
 
 <body>

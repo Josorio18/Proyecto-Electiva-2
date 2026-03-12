@@ -1,7 +1,7 @@
 (function(){
     // cart key per current user
     function getCurrentUser() {
-        return localStorage.getItem('user') || sessionStorage.getItem('user') || 'guest';
+        return localStorage.getItem('currentUser') || 'guest';
     }
 
     function cartKey() {
@@ -71,8 +71,11 @@
 
     function showUserName() {
         const user = getCurrentUser();
+        const userName = localStorage.getItem('currentUserName');
         const el = document.getElementById('userName');
-        if(el) el.textContent = user === 'guest' ? 'Invitado' : user;
+        if(el) {
+            el.textContent = user === 'guest' ? 'Invitado' : (userName || user.split('@')[0]);
+        }
     }
 
     // listener genérico para agregar al carrito desde cualquier página
