@@ -81,6 +81,33 @@ function updateCartBadge() {
 document.addEventListener('DOMContentLoaded', () => {
     updateCartBadge();
     updateNavigation();
+
+    // Funcionalidad dinámica para la página de inicio
+    const gallery = document.querySelector('.image-gallery');
+    if (gallery) {
+        gallery.innerHTML = `
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+                <div class="product-card card" style="text-align: center; border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 250px; background-color: white;">
+                    <img src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQR98yhYHDIJauIVcrsjpOLQyuNi6zR72mhU9jqYLPFHg9zTk8V-pzQF4XVs5gQkza2MtSvxWw8R5ufsZZab_kKqMxsSA125A" alt="Camiseta Especial" style="max-width: 100%; max-height: 200px; object-fit: cover; border-radius: 5px; margin-bottom: 10px;">
+                    <h3 style="margin: 10px 0;">Camiseta Especial</h3>
+                    <p class="price" style="font-weight: bold; color: var(--primary-color); font-size: 1.2em; margin-bottom: 15px;">$45.00</p>
+                    <label for="featQty1" style="display: inline-block; margin-bottom: 5px;">Cantidad:</label>
+                    <input type="number" id="featQty1" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 15px; padding: 5px; text-align: center;">
+                    <br>
+                    <button style="background-color: var(--primary-color); color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; font-weight: bold; width: 100%; transition: background-color 0.3s;">Añadir al carrito</button>
+                </div>
+                <div class="product-card card" style="text-align: center; border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 250px; background-color: white;">
+                    <img src="../images/gafas urbanas.jpg" alt="Gafas Exclusivas" style="max-width: 100%; max-height: 200px; object-fit: cover; border-radius: 5px; margin-bottom: 10px;">
+                    <h3 style="margin: 10px 0;">Gafas Exclusivas</h3>
+                    <p class="price" style="font-weight: bold; color: var(--primary-color); font-size: 1.2em; margin-bottom: 15px;">$25.00</p>
+                    <label for="featQty2" style="display: inline-block; margin-bottom: 5px;">Cantidad:</label>
+                    <input type="number" id="featQty2" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 15px; padding: 5px; text-align: center;">
+                    <br>
+                    <button style="background-color: var(--primary-color); color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; font-weight: bold; width: 100%; transition: background-color 0.3s;">Añadir al carrito</button>
+                </div>
+            </div>
+        `;
+    }
 });
 
 // también sobreescribir addToCart globalmente para notificar al contador

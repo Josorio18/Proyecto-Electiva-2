@@ -1,4 +1,9 @@
 (function () {
+	// Redirigir si ya hay un usuario logueado
+	if (localStorage.getItem('currentUser')) {
+		window.location.href = 'index.html';
+		return;
+	}
 
 	const form = document.getElementById('loginForm');
 	const email = document.getElementById('email');

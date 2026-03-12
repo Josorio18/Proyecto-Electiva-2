@@ -40,17 +40,18 @@
 
         let total = 0;
         cart.forEach((it, idx) => {
+            const qty = it.quantity || 1;
             const div = document.createElement('div');
             div.className = 'cart-item';
             div.innerHTML = `
-                <span class="item-name">${it.title}</span>
+                <span class="item-name">${it.title} (x${qty})</span>
                 <span class="item-price">${it.price}</span>
                 ${it.size ? `<span class="item-size">Talla: ${it.size}</span>` : ''}
             `;
             container.appendChild(div);
 
             const num = parseFloat(it.price.replace(/[^0-9\.]+/g, ''));
-            if(!isNaN(num)) total += num;
+            if(!isNaN(num)) total += num * qty;
         });
 
         if(summaryEl) {
@@ -91,10 +92,12 @@
                 const titleEl = card.querySelector('h2, h3');
                 const priceEl = card.querySelector('.price');
                 const sizeEl = card.querySelector('.size-select');
+                const quantityEl = card.querySelector('.quantity-input');
                 const title = titleEl ? titleEl.textContent.trim() : '';
                 const price = priceEl ? priceEl.textContent.trim() : '';
                 const size = sizeEl ? sizeEl.value : '';
-                addToCart({ title, price, size });
+                const quantity = quantityEl ? parseInt(quantityEl.value, 10) || 1 : 1;
+                addToCart({ title, price, size, quantity });
             }
         }
     });
