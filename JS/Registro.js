@@ -1,51 +1,52 @@
-(function(){
-	const form = document.getElementById('registroForm');
-	const nameInput = document.getElementById('name');
-	const emailInput = document.getElementById('email');
-	const passwordInput = document.getElementById('password');
-	const emailError = document.getElementById('emailError');
+(function () {
+    const form = document.getElementById('registroForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailError = document.getElementById('emailError');
 
-	form.addEventListener('submit', function(ev){
-		ev.preventDefault();
-		hideErrors();
+    form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        hideErrors();
 
-		const name = nameInput.value.trim();
-		const email = emailInput.value.trim();
-		const password = passwordInput.value.trim();
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
 
-		// Obtener usuarios existentes
-		let users = JSON.parse(localStorage.getItem('usersMarketplace')) || [];
-		
-		// Verificar si el correo ya existe
-		const userExists = users.find(u => u.email === email);
-		if(userExists) {
-			showError(emailError, 'El correo ya está registrado.');
-			return;
-		}
+        // Obtener usuarios existentes
+        let users = JSON.parse(localStorage.getItem('usersMarketplace')) || [];
 
-		// Crear nuevo usuario
-		const newUser = {
-			name: name,
-			email: email,
-			password: password
-		};
+        // Verificar si el correo ya existe
+        const userExists = users.find(u => u.email === email);
+        if (userExists) {
+            showError(emailError, 'El correo ya está registrado.');
+            return;
+        }
 
-		users.push(newUser);
-		localStorage.setItem('usersMarketplace', JSON.stringify(users));
+        // Crear nuevo usuario
+        const newUser = {
+            name: name,
+            email: email,
+            password: password
+        };
 
-		// Iniciar sesión automáticamente
-		localStorage.setItem('currentUser', email);
+        users.push(newUser);
+        localStorage.setItem('usersMarketplace', JSON.stringify(users));
 
-		alert('Registro exitoso! Iniciando sesión...');
-		window.location.href = 'index.html';
-	});
+        // Iniciar sesión automáticamente
+        localStorage.setItem('currentUser', email);
+        localStorage.setItem('currentUserName', name);
 
-	function showError(el, text){
-		el.textContent = text;
-		el.style.display = 'block';
-	}
+        alert('Registro exitoso! Iniciando sesión...');
+        window.location.href = 'index.html';
+    });
 
-	function hideErrors(){
-		emailError.style.display = 'none';
-	}
+    function showError(el, text) {
+        el.textContent = text;
+        el.style.display = 'block';
+    }
+
+    function hideErrors() {
+        emailError.style.display = 'none';
+    }
 })();
