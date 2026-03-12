@@ -27,6 +27,58 @@
         <div id="cartSummary" class="cart-summary"></div>
     </main>
 
+    <!-- Modal de Pago -->
+    <div id="paymentModal" class="payment-modal" style="display: none;">
+        <div class="payment-modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Detalles de Pago</h2>
+            <div class="payment-methods">
+                <label>
+                    <input type="radio" name="paymentMethod" value="card" checked>
+                    💳 Tarjeta de Crédito/Débito
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="paypal">
+                    🅿️ PayPal
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="cash">
+                    💵 Efectivo (Contra Entrega)
+                </label>
+            </div>
+
+            <form id="paymentForm">
+                <div class="card-details" id="cardDetailsBlock">
+                    <label for="cardNumber">Número de Tarjeta</label>
+                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19">
+                    
+                    <div class="card-row">
+                        <div class="card-col">
+                            <label for="cardExpiry">Vencimiento</label>
+                            <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                        </div>
+                        <div class="card-col">
+                            <label for="cardCvc">CVC</label>
+                            <input type="text" id="cardCvc" placeholder="123" maxlength="3">
+                        </div>
+                    </div>
+                    
+                    <label for="cardName">Nombre en la tarjeta</label>
+                    <input type="text" id="cardName" placeholder="Juan Perez">
+                </div>
+
+                <div class="order-summary-box">
+                    <p>Subtotal: <span id="modalSubtotal">$0.00</span></p>
+                    <p>Envío: <span>Gratis</span></p>
+                    <hr>
+                    <h3>Total a Pagar: <span id="modalTotal">$0.00</span></h3>
+                </div>
+
+                <button type="submit" class="btn-pay-now">Pagar Ahora</button>
+            </form>
+        </div>
+    </div>
+
     <script src="../JS/app.js"></script>
     <script src="../JS/Carrito.js" defer></script>
     <footer>© 2026 UrbanStyle. Todos los derechos reservados.</footer>

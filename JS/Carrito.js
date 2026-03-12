@@ -57,13 +57,10 @@
         if(summaryEl) {
             summaryEl.innerHTML = `<div>Total: $${total.toFixed(2)}</div>`;
             const btn = document.createElement('button');
-            btn.textContent = 'Finalizar compra';
+            btn.textContent = 'Proceder al Pago';
+            btn.className = 'btn-checkout';
             btn.addEventListener('click', function(){
-                if(confirm('¿Deseas confirmar la compra por $' + total.toFixed(2) + '?')){
-                    clearCart();
-                    renderCart();
-                    alert('¡Gracias por tu compra!');
-                }
+                openPaymentModal(total);
             });
             summaryEl.appendChild(btn);
         }
@@ -109,10 +106,68 @@
         saveCart([]);
     }
 
+    // Lógica del Modal de Pago
+    function openPaymentModal(total) {
+        const modal = document.getElementById('paymentModal');
+        const modalSubtotal = document.getElementById('modalSubtotal');
+        const modalTotal = document.getElementById('modalTotal');
+        
+        if (modal) {
+            modalSubtotal.textContent = '$' + total.toFixed(2);
+            modalTotal.textContent = '$' + total.toFixed(2);
+            modal.style.display = 'flex';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function(){
         if(document.getElementById('cartItems')){
             showUserName();
             renderCart();
+
+            // Configurar eventos del modal de pago si existe
+            const modal = document.getElementById('paymentModal');
+            if (modal) {
+                const closeModalBtn = modal.querySelector('.close-modal');
+                const paymentForm = document.getElementById('paymentForm');
+                const radios = document.querySelectorAll('input[name="paymentMethod"]');
+                const cardBlock = document.getElementById('cardDetailsBlock');
+
+                // Cerrar modal
+                closeModalBtn.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+
+                // Cambiar métodos de pago
+                radios.forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        if (e.target.value === 'card') {
+                            cardBlock.style.display = 'block';
+                        } else {
+                            cardBlock.style.display = 'none';
+                        }
+                    });
+                });
+
+                // Procesar pago simulado
+                paymentForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const method = document.querySelector('input[name="paymentMethod"]:checked').value;
+                    if (method === 'card') {
+                        const cn = document.getElementById('cardNumber').value;
+                        if(cn.length < 15) {
+                            alert('Por favor ingrese una tarjeta válida para simular el pago.');
+                            return;
+                        }
+                    }
+
+                    modal.style.display = 'none';
+                    alert('¡Pago Procesado Exitosamente!\nGracias por tu compra en UrbanStyle.');
+                    clearCart();
+                    renderCart();
+                    window.location.href = 'index.html'; // Devolver al inicio al terminar
+                });
+            }
         }
     });
 })();
