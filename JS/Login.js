@@ -1,4 +1,4 @@
-(function(){
+(function () {
 
 	const form = document.getElementById('loginForm');
 	const email = document.getElementById('email');
@@ -7,49 +7,56 @@
 	const passError = document.getElementById('passError');
 	const remember = document.getElementById('remember');
 
-	function validarEmail(e){
+	function validarEmail(e) {
 		const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return re.test(e);
 	}
 
 	// Prefill if remembered
-	try{
+	try {
 		const saved = JSON.parse(localStorage.getItem('rememberedCredentials') || 'null');
-		if(saved && saved.email){
+		if (saved && saved.email) {
 			email.value = saved.email;
 			password.value = saved.password || '';
 			remember.checked = true;
 		} else {
 			const legacy = localStorage.getItem('user') || sessionStorage.getItem('user');
-			if(legacy) email.value = legacy;
+			if (legacy) email.value = legacy;
 		}
-	} catch(e){}
+	} catch (e) { }
 
-	function showError(el, text){
+	function showError(el, text) {
 		el.textContent = text;
 		el.style.display = 'block';
 	}
 
-	function hideErrors(){
+	function hideErrors() {
 		emailError.style.display = 'none';
 		passError.style.display = 'none';
 	}
 
-	form.addEventListener('submit', function(ev){
+	form.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 
-
-		// Guardar credenciales si se marca "Recuérdame"
 		const mail = email.value.trim();
-		const pass = password.value.trim();		
-		if(remember.checked){
-			localStorage.setItem('rememberedCredentials', JSON.stringify({email: mail, password: pass}));
-			localStorage.setItem('user', mail);
-		} else {
-			sessionStorage.setItem('user', mail);
+		const pass = password.value.trim();
+
+		let users = JSON.parse(localStorage.getItem('usersMarketplace')) || [];
+		const user = users.find(u => u.email === mail && u.password === pass);
+
+		if (!user) {
+			showError(passError, 'Correo o contraseña incorrectos.');
+			return;
 		}
 
-		// Redirigir directamente a la página principal 
+		if (remember.checked) {
+			localStorage.setItem('rememberedCredentials', JSON.stringify({ email: mail, password: pass }));
+		} else {
+			localStorage.removeItem('rememberedCredentials');
+		}
+		localStorage.setItem('currentUser', mail);
+		localStorage.setItem('currentUserName', user.name);
+
 		window.location.href = 'index.html';
 	});
 
