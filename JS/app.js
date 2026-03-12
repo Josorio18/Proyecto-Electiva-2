@@ -28,7 +28,7 @@ function updateNavigation() {
     const registerLink = Array.from(nav.querySelectorAll('a')).find(a => a.getAttribute('href') === 'Registro.html' || a.textContent.trim().toLowerCase() === 'registro');
 
     if (user !== 'guest') {
-        const userName = getCurrentUserName();
+        const userName = getCurrentUserName() || user.split('@')[0];
 
         if (loginLink) {
             loginLink.textContent = `Hola, ${userName}`;
