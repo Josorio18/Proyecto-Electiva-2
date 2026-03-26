@@ -1,3 +1,10 @@
+declare global {
+    interface Window {
+        addToCart: (item: { title: string; price: string; size?: string; quantity?: number }) => void;
+        updateCartBadge: () => void;
+    }
+}
+
 (function(){
     // cart key per current user
     function getCurrentUser() {
@@ -12,7 +19,11 @@
         return JSON.parse(localStorage.getItem(cartKey()) || '[]');
     }
 
+<<<<<<< HEAD
     function saveCart(cart: any[]): void {
+=======
+    function saveCart(cart: any[]) {
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
         localStorage.setItem(cartKey(), JSON.stringify(cart));
     }
 
@@ -22,7 +33,11 @@
         cart.push(item);
         saveCart(cart);
         alert('Producto agregado al carrito');
+<<<<<<< HEAD
         if(typeof (window as any).updateCartBadge === 'function') (window as any).updateCartBadge();
+=======
+        if(typeof window.updateCartBadge === 'function') window.updateCartBadge();
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
     };
 
     function renderCart(): void {
@@ -39,7 +54,11 @@
         }
 
         let total = 0;
+<<<<<<< HEAD
         cart.forEach((it: any) => {
+=======
+        cart.forEach((it: any, idx: number) => {
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
             const qty = it.quantity || 1;
             const div = document.createElement('div');
             div.className = 'cart-item';
@@ -77,7 +96,11 @@
             if(el) el.textContent = 'Invitado';
             if(promo) promo.style.display = 'block';
         } else {
+<<<<<<< HEAD
             if(el) el.textContent = (userName || user.split('@')[0]) || '';
+=======
+            if(el) el.textContent = (userName || user.split('@')[0]) as string;
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
             if(promo) promo.style.display = 'none';
         }
     }
@@ -88,16 +111,24 @@
         cart.push(item);
         saveCart(cart);
         alert('Producto agregado al carrito');
+<<<<<<< HEAD
         if(typeof (window as any).updateCartBadge === 'function') (window as any).updateCartBadge();
     };
 
     document.addEventListener('click', function(e: MouseEvent){
+=======
+        if(typeof window.updateCartBadge === 'function') window.updateCartBadge();
+    };
+
+    document.addEventListener('click', function(e){
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
         const btn = e.target as HTMLElement;
         if(btn && btn.tagName === 'BUTTON'){
             const card = btn.closest('.product-card') || btn.closest('.card');
             if(card) {
                 const titleEl = card.querySelector('h2, h3');
                 const priceEl = card.querySelector('.price');
+<<<<<<< HEAD
                 const sizeEl = card.querySelector('.size-select') as HTMLSelectElement | null;
                 const quantityEl = card.querySelector('.quantity-input') as HTMLInputElement | null;
                 const title = titleEl ? titleEl.textContent?.trim() || '' : '';
@@ -105,6 +136,15 @@
                 const size = sizeEl ? sizeEl.value : '';
                 const quantity = quantityEl ? parseInt(quantityEl.value, 10) || 1 : 1;
                 (window as any).addToCart({ title, price, size, quantity });
+=======
+                const sizeEl = card.querySelector('.size-select');
+                const quantityEl = card.querySelector('.quantity-input');
+                const title = titleEl ? titleEl.textContent!.trim() : '';
+                const price = priceEl ? priceEl.textContent!.trim() : '';
+                const size = sizeEl ? (sizeEl as HTMLInputElement).value : '';
+                const quantity = quantityEl ? parseInt((quantityEl as HTMLInputElement).value, 10) || 1 : 1;
+                window.addToCart({ title, price, size, quantity });
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
             }
         }
     });
@@ -114,14 +154,24 @@
     }
 
     // Lógica del Modal de Pago
+<<<<<<< HEAD
     function openPaymentModal(total: number): void {
+=======
+    function openPaymentModal(total: number) {
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
         const modal = document.getElementById('paymentModal');
         const modalSubtotal = document.getElementById('modalSubtotal');
         const modalTotal = document.getElementById('modalTotal');
         
+<<<<<<< HEAD
         if (modal && modalSubtotal && modalTotal) {
             modalSubtotal.textContent = '$' + total.toFixed(2);
             modalTotal.textContent = '$' + total.toFixed(2);
+=======
+        if (modal) {
+            modalSubtotal!.textContent = '$' + total.toFixed(2);
+            modalTotal!.textContent = '$' + total.toFixed(2);
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
             modal.style.display = 'flex';
         }
     }
@@ -140,6 +190,7 @@
                 const cardBlock = document.getElementById('cardDetailsBlock');
 
                 // Cerrar modal
+<<<<<<< HEAD
                 if (closeModalBtn) {
                     closeModalBtn.addEventListener('click', () => {
                         modal.style.display = 'none';
@@ -156,11 +207,25 @@
                             } else {
                                 cardBlock.style.display = 'none';
                             }
+=======
+                closeModalBtn!.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+
+                // Cambiar métodos de pago
+                radios.forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        if ((e.target as HTMLInputElement).value === 'card') {
+                            cardBlock!.style.display = 'block';
+                        } else {
+                            cardBlock!.style.display = 'none';
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
                         }
                     });
                 });
 
                 // Procesar pago simulado
+<<<<<<< HEAD
                 if (paymentForm) {
                     paymentForm.addEventListener('submit', (e: Event) => {
                         e.preventDefault();
@@ -178,6 +243,17 @@
                                     return;
                                 }
                             }
+=======
+                paymentForm!.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const method = (document.querySelector('input[name="paymentMethod"]:checked') as HTMLInputElement).value;
+                    if (method === 'card') {
+                        const cn = (document.getElementById('cardNumber') as HTMLInputElement).value;
+                        if(cn.length < 15) {
+                            alert('Por favor ingrese una tarjeta válida para simular el pago.');
+                            return;
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
                         }
 
                         modal.style.display = 'none';

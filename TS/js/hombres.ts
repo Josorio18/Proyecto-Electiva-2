@@ -27,6 +27,7 @@ if (contenedor) {
             <img src="${producto.imagen}" alt="${producto.nombre}">
             <h3>${producto.nombre}</h3>
             <p>${producto.precio}</p>
+<<<<<<< HEAD
             <button class="add-to-cart-btn">Agregar al carrito</button>
         `;
 
@@ -42,5 +43,11 @@ if (contenedor) {
                 });
             });
         }
+=======
+            <button>Agregar al carrito</button>
+        `;
+
+        contenedor.appendChild(card);
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
     });
 }

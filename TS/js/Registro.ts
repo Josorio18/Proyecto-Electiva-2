@@ -8,21 +8,28 @@
         }
         return;
     }
-    const form = document.getElementById('registroForm');
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const emailError = document.getElementById('emailError');
+    const form = document.getElementById('registroForm') as HTMLFormElement;
+    const nameInput = document.getElementById('name') as HTMLInputElement;
+    const emailInput = document.getElementById('email') as HTMLInputElement;
+    const passwordInput = document.getElementById('password') as HTMLInputElement;
+    const emailError = document.getElementById('emailError') as HTMLElement;
 
+<<<<<<< HEAD
     if (form) {
         form.addEventListener('submit', function (ev: Event) {
             ev.preventDefault();
             hideErrors();
+=======
+    if (form) form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        hideErrors();
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
 
             const name = (nameInput instanceof HTMLInputElement) ? nameInput.value.trim() : '';
             const email = (emailInput instanceof HTMLInputElement) ? emailInput.value.trim() : '';
             const password = (passwordInput instanceof HTMLInputElement) ? passwordInput.value.trim() : '';
 
+<<<<<<< HEAD
             // Obtener usuarios existentes
             const usersRaw = localStorage.getItem('usersMarketplace');
             let users: any[] = usersRaw ? JSON.parse(usersRaw) : [];
@@ -33,6 +40,17 @@
                 showError(emailError as HTMLElement, 'El correo ya está registrado.');
                 return;
             }
+=======
+        // Obtener usuarios existentes
+        let users = JSON.parse(localStorage.getItem('usersMarketplace') || '[]');
+
+        // Verificar si el correo ya existe
+        const userExists = users.find((u: any) => u.email === email);
+        if (userExists) {
+            showError(emailError, 'El correo ya está registrado.');
+            return;
+        }
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
 
             // Crear nuevo usuario
             const newUser = {
@@ -56,6 +74,7 @@
                 localStorage.removeItem('shoppingCart_guest'); // Limpiar
             }
 
+<<<<<<< HEAD
             alert('Registro exitoso! Iniciando sesión...');
             window.location.replace('index.html');
         });
@@ -69,6 +88,18 @@
     }
 
     function hideErrors(): void {
+=======
+        alert('Registro exitoso! Iniciando sesión...');
+        window.location.replace('index.html');
+    });
+
+    function showError(el: HTMLElement, text: string) {
+        el.textContent = text;
+        el.style.display = 'block';
+    }
+
+    function hideErrors() {
+>>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
         if (emailError) emailError.style.display = 'none';
     }
 })();

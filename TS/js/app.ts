@@ -1,5 +1,11 @@
 // Archivo de utilidad general para el sitio
 
+declare global {
+    interface Window {
+        addToCart: (item: { title: string; price: string; size?: string; quantity?: number }) => void;
+    }
+}
+
 console.log('app.js cargado');
 
 // funciones compartidas para consultar carrito de usuario
