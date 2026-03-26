@@ -28,18 +28,30 @@
         <img src="../images/ropa.jpg" alt="Imagen principal" class="hero-only-img">
     </section>
 
-    <section class="about">
-        <h3>Bienvenido a UrbanStyle</h3>
-        <p>UrbanStyle es tu destino en línea para descubrir las últimas tendencias en moda urbana. Con una selección
-            curada de prendas y accesorios modernos, te ofrecemos un viaje de estilo único donde la calidad y el diseño
-            se combinan. Explora, inspírate y haz que tu guardarropa hable por ti.</p>
-        <!-- Espacio reservado para imágenes de la página -->
-        <div class="image-gallery">
-            <!-- Aquí puedes colocar tus imágenes promocionales -->
+    </section>
+    
+    <section class="products">
+        <h2>Productos Destacados</h2>
+        <div class="product-grid" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+            <article class="product-card" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 250px; text-align: center;">
+                <img src="https://img.ltwebstatic.com/images3_pi/2022/01/09/164173464374cc3298a2fb93e64549e59ae21404e6.jpg" alt="Vestido Demo" style="width: 100%; border-radius: 4px;">
+                <h2 style="font-size: 1.2em; margin: 10px 0;">Vestido Demo</h2>
+                <p class="price" style="font-weight: bold; color: var(--primary-color);">$49.99</p>
+                <label>Talla:</label>
+                <select class="size-select" style="margin-bottom: 10px; padding: 5px;">
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                </select>
+                <button class="buy-button" style="padding: 10px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%;">Añadir al carrito</button>
+            </article>
         </div>
     </section>
 
-    <script src="../JS/app.js"></script>
+
+    <script type="module" src="../js/app.js"></script>
+    <script type="module" src="../js/Carrito.js" defer></script>
+    <script type="module" src="../js/Mujer.js" defer></script>
 
     <a href="Carrito.html" class="btn-ver-carrito">🛒</a>
     <footer>© 2026 UrbanStyle. Todos los derechos reservados.</footer>

@@ -11,7 +11,7 @@ function getCurrentUserName() {
     return localStorage.getItem('currentUserName') || '';
 }
 
-function logout() {
+function logout(): void {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('currentUserName');
     window.location.href = 'Login.html';
@@ -57,7 +57,7 @@ function updateNavigation() {
         }
     }
 }
-function cartKey() {
+function cartKey(): string {
     return 'shoppingCart_' + getCurrentUser();
 }
 function getCart() {
@@ -65,8 +65,8 @@ function getCart() {
 }
 
 // actualiza el contador en el botón flotante del carrito
-function updateCartBadge() {
-    const btn = document.querySelector('.btn-ver-carrito');
+function updateCartBadge(): void {
+    const btn = document.querySelector('.btn-ver-carrito') as HTMLElement | null;
     if (!btn) return;
     const cart = getCart();
     const count = cart.length;
@@ -111,8 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // también sobreescribir addToCart globalmente para notificar al contador
-const originalAdd = window.addToCart;
-window.addToCart = function (item) {
+const originalAdd = (window as any).addToCart;
+(window as any).addToCart = function (item: any): void {
     if (originalAdd) originalAdd(item);
     updateCartBadge();
 };

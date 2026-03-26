@@ -1,0 +1,16 @@
+{
+  "name": "proyecto-electiva-2",
+  "version": "1.0.0",
+  "description": "Proyecto de Electiva II - UrbanStyle con TypeScript",
+  "main": "dist/js/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
