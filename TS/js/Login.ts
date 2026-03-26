@@ -9,14 +9,20 @@
 		return;
 	}
 
-	const form = document.getElementById('loginForm');
-	const email = document.getElementById('email');
-	const password = document.getElementById('password');
-	const emailError = document.getElementById('emailError');
-	const passError = document.getElementById('passError');
-	const remember = document.getElementById('remember');
+	interface User {
+		email: string;
+		password: string;
+		name?: string;
+	}
 
-	function validarEmail(e) {
+	const form = document.getElementById('loginForm') as HTMLFormElement;
+	const email = document.getElementById('email') as HTMLInputElement;
+	const password = document.getElementById('password') as HTMLInputElement;
+	const emailError = document.getElementById('emailError') as HTMLElement;
+	const passError = document.getElementById('passError') as HTMLElement;
+	const remember = document.getElementById('remember') as HTMLInputElement;
+
+	function validarEmail(e: string) {
 		const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return re.test(e);
 	}
@@ -34,7 +40,7 @@
 		}
 	} catch (e) { }
 
-	function showError(el, text) {
+	function showError(el: HTMLElement, text: string) {
 		el.textContent = text;
 		el.style.display = 'block';
 	}
@@ -50,8 +56,8 @@
 		const mail = email.value.trim();
 		const pass = password.value.trim();
 
-		let users = JSON.parse(localStorage.getItem('usersMarketplace')) || [];
-		const user = users.find(u => u.email === mail && u.password === pass);
+		let users: User[] = JSON.parse(localStorage.getItem('usersMarketplace') || '[]');
+		const user = users.find((u: User) => u.email === mail && u.password === pass);
 
 		if (!user) {
 			showError(passError, 'Correo o contraseña incorrectos.');
@@ -67,7 +73,7 @@
 		// Fusionar carrito del guest al nuevo usuario
 		const guestCart = JSON.parse(localStorage.getItem('shoppingCart_guest') || '[]');
 		localStorage.setItem('currentUser', mail);
-		localStorage.setItem('currentUserName', user.name || mail.split('@')[0]);
+		localStorage.setItem('currentUserName', (user.name || mail.split('@')[0]) as string);
 		
 		if (guestCart.length > 0) {
 			// El actual usuario logueado
