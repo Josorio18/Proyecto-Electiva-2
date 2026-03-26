@@ -18,8 +18,8 @@
         cart.push(item);
         saveCart(cart);
         alert('Producto agregado al carrito');
-        if (typeof updateCartBadge === 'function')
-            updateCartBadge();
+        if (typeof window.updateCartBadge === 'function')
+            window.updateCartBadge();
     };
     function renderCart() {
         const cart = getCart();
@@ -84,8 +84,8 @@
         cart.push(item);
         saveCart(cart);
         alert('Producto agregado al carrito');
-        if (typeof updateCartBadge === 'function')
-            updateCartBadge();
+        if (typeof window.updateCartBadge === 'function')
+            window.updateCartBadge();
     };
     document.addEventListener('click', function (e) {
         const btn = e.target;

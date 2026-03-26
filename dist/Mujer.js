@@ -4,12 +4,17 @@ window.addEventListener('DOMContentLoaded', () => {
     buttons.forEach((btn, index) => {
         btn.addEventListener('click', () => {
             const productCard = btn.closest('.product-card');
-            const title = productCard.querySelector('h2').textContent;
-            const price = productCard.querySelector('.price').textContent;
-            const select = productCard.querySelector('.size-select');
-            const size = select.value;
-            alert(`Has seleccionado:\nProducto: ${title}\nPrecio: ${price}\nTalla: ${size}`);
-            // Aquí se podría añadir lógica para agregar al carrito
+            if (productCard) {
+                const title = productCard.querySelector('h2').textContent;
+                const price = productCard.querySelector('.price').textContent;
+                const select = productCard.querySelector('.size-select');
+                const size = select ? select.value : '';
+                const quantityEl = productCard.querySelector('.quantity-input');
+                const quantity = quantityEl ? parseInt(quantityEl.value, 10) || 1 : 1;
+                if (typeof window.addToCart === 'function') {
+                    window.addToCart({ title, price, size, quantity });
+                }
+            }
         });
     });
 });
