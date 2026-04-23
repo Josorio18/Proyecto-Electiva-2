@@ -1,60 +1,21 @@
-/**
- * Mujer.ts
- *
- * Lógica dinámica para la sección de mujeres.
- */
-const productosMujer = [
-    {
-        nombre: "Vestido Floral Premium",
-        precio: "$49.99",
-        imagen: "https://img.ltwebstatic.com/images3_pi/2022/01/09/164173464374cc3298a2fb93e64549e59ae21404e6.jpg",
-        descripcion: "Vestido ligero con estampado floral, ideal para eventos campestres o tardes elegantes."
-    },
-    {
-        nombre: "Blusa Casual Seda",
-        precio: "$29.99",
-        imagen: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/883255720_1/w=1004,h=1004",
-        descripcion: "Blusa de seda con caída suave, cuello en V y acabados minimalistas."
-    },
-    {
-        nombre: "Pantalón Denim Urbano",
-        precio: "$39.99",
-        imagen: "https://plazavea.vteximg.com.br/arquivos/ids/27312774-1000-1000/image-1.jpg?v=638273237701200000",
-        descripcion: "Jeans de corte moderno con talle alto y detalles desgastados premium."
-    }
-];
-document.addEventListener('DOMContentLoaded', () => {
-    const contenedor = document.getElementById("productos-mujeres");
-    if (contenedor) {
-        productosMujer.forEach(producto => {
-            const card = document.createElement("article");
-            card.classList.add("product-card");
-            card.innerHTML = `
-                <img src="${producto.imagen}" alt="${producto.nombre}">
-                <h3>${producto.nombre}</h3>
-                <p style="padding: 0 1.2rem; font-size: 0.9em; color: #666;">${producto.descripcion}</p>
-                <p class="price">${producto.precio}</p>
-                <div class="product-actions">
-                    <div class="action-row">
-                        <div class="action-item">
-                            <label>Talla:</label>
-                            <select class="size-select">
-                                <option value="S">S</option>
-                                <option value="M">M</option>
-                                <option value="L">L</option>
-                            </select>
-                        </div>
-                        <div class="action-item">
-                            <label>Cant:</label>
-                            <input type="number" class="quantity-input" value="1" min="1">
-                        </div>
-                    </div>
-                </div>
-                <button class="buy-button">Añadir al carrito</button>
-            `;
-            contenedor.appendChild(card);
+// Maneja el evento de compra para cada producto
+window.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.buy-button');
+    buttons.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            const productCard = btn.closest('.product-card');
+            if (productCard) {
+                const title = productCard.querySelector('h2').textContent;
+                const price = productCard.querySelector('.price').textContent;
+                const select = productCard.querySelector('.size-select');
+                const size = select ? select.value : '';
+                const quantityEl = productCard.querySelector('.quantity-input');
+                const quantity = quantityEl ? parseInt(quantityEl.value, 10) || 1 : 1;
+                if (typeof window.addToCart === 'function') {
+                    window.addToCart({ title, price, size, quantity });
+                }
+            }
         });
-        console.log('Productos de mujeres cargados dinámicamente.');
-    }
+    });
 });
 export {};
