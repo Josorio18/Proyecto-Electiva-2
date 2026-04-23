@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sección Hombres</title>
+    <meta name="description" content="Sección de Hombres UrbanStyle - Ropa con carácter y estilo urbano premium.">
+    <title>UrbanStyle - Hombres</title>
     <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="stylesheet" href="../CSS/Decoracion.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>Ropa para Hombres</h1>
+        <div class="logo-container">
+            <h1>UrbanStyle</h1>
+        </div>
         <nav>
             <a href="index.html">Inicio</a>
             <a href="Hombre.html" class="active">Hombres</a>
@@ -20,65 +25,48 @@
         </nav>
     </header>
 
-    <main class="products">
-        <!-- Contenedor dinámico para productos renderizados por hombres.js -->
-        <div id="productos-hombres"></div>
+    <main>
+        <h2 class="text-center mb-2">Nuestra Colección Masculina</h2>
+        <!-- El contenedor se llena dinámicamente desde Hombre.js -->
+        <div id="productos-hombres" class="product-grid"></div>
         
-        <!-- Algunos productos de ejemplo para la sección hombres -->
-        <article class="product-card">
-            <img src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQR98yhYHDIJauIVcrsjpOLQyuNi6zR72mhU9jqYLPFHg9zTk8V-pzQF4XVs5gQkza2MtSvxWw8R5ufsZZab_kKqMxsSA125A" alt="Camisa Casual">
-            <h2>Camisa Casual</h2>
-            <p class="price">$39.99</p>
-            <label for="msize1">Talla:</label>
-            <select id="msize1" class="size-select">
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-            </select>
-            <label for="mqty1">Cantidad:</label>
-            <input type="number" id="mqty1" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-            <button class="buy-button">Añadir al carrito</button>
-        </article>
-        <article class="product-card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSplZ28NDXmNErsgnn_H9qAQ-41jJ4X4bQotw&s" alt="Pantalón de Jeans">
-            <h2>Pantalón de Jeans</h2>
-            <p class="price">$49.99</p>
-            <label for="msize2">Talla:</label>
-            <select id="msize2" class="size-select">
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-            </select>
-            <label for="mqty2">Cantidad:</label>
-            <input type="number" id="mqty2" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-            <button class="buy-button">Añadir al carrito</button>
-        </article>
-        <article class="product-card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkPkRf_4qkEtUcloGT4ku2NKH3g3R49Zqezg&s" alt="Chaqueta Urbano">
-            <h2>Chaqueta Urbano</h2>
-            <p class="price">$69.99</p>
-            <label for="msize3">Talla:</label>
-            <select id="msize3" class="size-select">
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-            </select>
-            <label for="mqty3">Cantidad:</label>
-            <input type="number" id="mqty3" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-            <button class="buy-button">Añadir al carrito</button>
-        </article>
+        <h2 class="text-center mt-2 mb-2">Productos Destacados</h2>
+        <div class="product-grid">
+            <article class="product-card">
+                <img src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQR98yhYHDIJauIVcrsjpOLQyuNi6zR72mhU9jqYLPFHg9zTk8V-pzQF4XVs5gQkza2MtSvxWw8R5ufsZZab_kKqMxsSA125A" alt="Camisa Casual">
+                <h3>Camisa Essential</h3>
+                <p class="price">$39.99</p>
+                <div class="product-actions">
+                    <div class="action-row">
+                        <div class="action-item">
+                            <label>Talla:</label>
+                            <select class="size-select">
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                            </select>
+                        </div>
+                        <div class="action-item">
+                            <label>Cant:</label>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                        </div>
+                    </div>
+                </div>
+                <button class="buy-button">Añadir al carrito</button>
+            </article>
+        </div>
     </main>
 
-<<<<<<< HEAD
-    <script type="module" src="../js/app.js"></script>
-    <script type="module" src="../js/hombres.js" defer></script>
-    <script type="module" src="../js/Carrito.js" defer></script>
-=======
-    <script src="../app.js"></script>
-    <script src="../Carrito.js" defer></script>
-    <script src="../hombres.js" defer></script>
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
     <a href="Carrito.html" class="btn-ver-carrito">🛒</a>
-    <footer>© 2026 UrbanStyle. Todos los derechos reservados.</footer>
+
+    <footer>
+        <p>© 2026 UrbanStyle. Todos los derechos reservados.</p>
+        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 10px;">Diseño Premium Minimalista</p>
+    </footer>
+
+    <script type="module" src="../js/app.js"></script>
+    <script type="module" src="../js/Carrito.js"></script>
+    <script type="module" src="../js/Hombre.js"></script>
+
 </body>
-</html>
+</html>

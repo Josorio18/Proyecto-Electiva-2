@@ -5,7 +5,8 @@
   "main": "dist/js/index.js",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w"
+    "watch": "tsc -w",
+    "start": "npx -y http-server ./ -p 5500 -o /dist/html/index.html"
   },
   "keywords": [],
   "author": "",

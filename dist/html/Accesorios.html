@@ -1,72 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Accesorios UrbanStyle - El toque final perfecto para tu estilo urbano. Gafas, cadenas, pulseras y más.">
     <title>UrbanStyle - Accesorios</title>
     <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="stylesheet" href="../CSS/Decoracion.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-<header>
-    <h1>Accesorios</h1>
-    <nav>
-        <a href="index.html">Inicio</a>
-        <a href="Hombre.html">Hombres</a>
-        <a href="Mujer.html">Mujeres</a>
-        <a href="Accesorios.html" class="active">Accesorios</a>
-        <a href="Carrito.html">Carrito</a>
-        <a href="Login.html">Login</a>
-    </nav>
-</header>
+    <header>
+        <div class="logo-container">
+            <h1>UrbanStyle</h1>
+        </div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="Hombre.html">Hombres</a>
+            <a href="Mujer.html">Mujeres</a>
+            <a href="Accesorios.html" class="active">Accesorios</a>
+            <a href="Carrito.html">Carrito</a>
+            <a href="Login.html">Login</a>
+        </nav>
+    </header>
 
-<section class="productos">
-    <div class="card">
-        <img src="../images/cadena plata.jpg" alt="Cadenas" />
-        <h3>Cadenas</h3>
-        <p>Cadena urbana en acero inoxidable o plata, ideal para looks street.</p>
-        <p class="price">$24.99</p>
-        <label for="aqty1">Cantidad:</label>
-        <input type="number" id="aqty1" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-        <button>Añadir al carrito</button>
-    </div>
-    <div class="card">
-        <img src="../images/collar minimalista.jpg" alt="Collar" />
-        <h3>Collar</h3>
-        <p>Collar minimalista con amuletos y acabados en dorado o plateado.</p>
-        <p class="price">$19.99</p>
-        <label for="aqty2">Cantidad:</label>
-        <input type="number" id="aqty2" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-        <button>Añadir al carrito</button>
-    </div>
-    <div class="card">
-        <img src="../images/gafas urbanas.jpg" alt="Gafas" />
-        <h3>Gafas de sol</h3>
-        <p>Gafas urbanas con montura negra o transparente y lentes polarizadas.</p>
-        <p class="price">$34.99</p>
-        <label for="aqty3">Cantidad:</label>
-        <input type="number" id="aqty3" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-        <button>Añadir al carrito</button>
-    </div>
-    <div class="card">
-        <img src="../images/pulseras cuero.jpg" alt="Pulsera" />
-        <h3>Pulsera</h3>
-        <p>Pulsera de cuero o cadena con dijes, perfecta para combinar.</p>
-        <p class="price">$14.99</p>
-        <label for="aqty4">Cantidad:</label>
-        <input type="number" id="aqty4" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-        <button>Añadir al carrito</button>
-    </div>
-</section>
+    <main>
+        <h2 class="text-center mb-2">Complementos Exclusivos</h2>
+        <!-- El contenedor se llena dinámicamente desde Accesorios.js -->
+        <div id="productos-accesorios" class="product-grid"></div>
+    </main>
 
-<<<<<<< HEAD
+    <a href="Carrito.html" class="btn-ver-carrito">🛒</a>
+
+    <footer>
+        <p>© 2026 UrbanStyle. Todos los derechos reservados.</p>
+        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 10px;">Diseño Premium Minimalista</p>
+    </footer>
+
     <script type="module" src="../js/app.js"></script>
-    <script type="module" src="../js/Carrito.js" defer></script>
-=======
-<script src="../app.js"></script>
-<script src="../Carrito.js" defer></script>
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-<a href="Carrito.html" class="btn-ver-carrito">🛒</a>
-<footer>© 2026 UrbanStyle. Todos los derechos reservados.</footer>
+    <script type="module" src="../js/Carrito.js"></script>
+    <script type="module" src="../js/Accesorios.js"></script>
+
 </body>
-</html>
+
+</html>

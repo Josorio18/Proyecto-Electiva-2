@@ -3,16 +3,22 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UrbanStyle - Tu tienda de moda urbana premium. Encuentra lo último en ropa para hombre, mujer y accesorios.">
+    <meta name="keywords" content="moda, urbana, ropa, hombres, mujeres, accesorios, urbanstyle">
     <title>UrbanStyle - Inicio</title>
     <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="stylesheet" href="../CSS/Decoracion.css">
-    <link rel="stylesheet" href="../CSS/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <header>
-        <h1>UrbanStyle</h1>
+        <div class="logo-container">
+            <h1>UrbanStyle</h1>
+        </div>
         <nav>
             <a href="index.html" class="active">Inicio</a>
             <a href="Hombre.html">Hombres</a>
@@ -23,35 +29,57 @@
         </nav>
     </header>
 
-    <section class="hero">
-        <!-- solo mostrar imagen, sin texto -->
-        <img src="../images/ropa.jpg" alt="Imagen principal" class="hero-only-img">
-    </section>
-
-    </section>
-    
-    <section class="products">
-        <h2>Productos Destacados</h2>
-        <div class="product-grid" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-            <article class="product-card" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 250px; text-align: center;">
-                <img src="https://img.ltwebstatic.com/images3_pi/2022/01/09/164173464374cc3298a2fb93e64549e59ae21404e6.jpg" alt="Vestido Demo" style="width: 100%; border-radius: 4px;">
-                <h2 style="font-size: 1.2em; margin: 10px 0;">Vestido Demo</h2>
-                <p class="price" style="font-weight: bold; color: var(--primary-color);">$49.99</p>
-                <label>Talla:</label>
-                <select class="size-select" style="margin-bottom: 10px; padding: 5px;">
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                </select>
-                <button class="buy-button" style="padding: 10px; background: var(--primary-color); color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%;">Añadir al carrito</button>
-            </article>
-        </div>
-    </section>
-
-    <script src="../JS/app.js"></script>
+    <main>
+        <section class="hero mb-2">
+            <div class="hero-container">
+                <img src="../images/ropa.jpg" alt="UrbanStyle Banner" class="hero-img">
+                <div class="hero-overlay">
+                    <h2>Nueva Colección 2026</h2>
+                    <p>Encuentra tu estilo único en UrbanStyle.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="products">
+            <h2 class="text-center mb-2">Productos Destacados</h2>
+            <div class="product-grid">
+                <!-- Producto Destacado 1 -->
+                <article class="product-card">
+                    <img src="https://img.ltwebstatic.com/images3_pi/2022/01/09/164173464374cc3298a2fb93e64549e59ae21404e6.jpg" alt="Vestido Elegancia">
+                    <h3>Vestido Elegancia</h3>
+                    <p class="price">$49.99</p>
+                    <div class="product-actions">
+                        <div class="action-row">
+                            <div class="action-item">
+                                <label>Talla:</label>
+                                <select class="size-select">
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                </select>
+                            </div>
+                            <div class="action-item">
+                                <label>Cant:</label>
+                                <input type="number" class="quantity-input" value="1" min="1">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="buy-button">Añadir al carrito</button>
+                </article>
+            </div>
+        </section>
+    </main>
 
     <a href="Carrito.html" class="btn-ver-carrito">🛒</a>
-    <footer>© 2026 UrbanStyle. Todos los derechos reservados.</footer>
+    
+    <footer>
+        <p>© 2026 UrbanStyle. Todos los derechos reservados.</p>
+        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 10px;">Diseño Premium Minimalista</p>
+    </footer>
+
+    <script type="module" src="../js/app.js"></script>
+    <script type="module" src="../js/Carrito.js"></script>
+
 </body>
 
-</html>
+</html>

@@ -1,87 +1,70 @@
-(function () {
+import { transferGuestCart, showToast } from './Common.js';
+document.addEventListener('DOMContentLoaded', () => {
     // Redirigir si ya hay un usuario logueado
     if (localStorage.getItem('currentUser')) {
-        if (window.history.length > 2) {
-            window.history.back();
-        }
-        else {
-            window.location.replace('index.html');
-        }
+        window.location.replace('index.html');
         return;
     }
     const form = document.getElementById('loginForm');
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    const emailError = document.getElementById('emailError');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
     const passError = document.getElementById('passError');
-    const remember = document.getElementById('remember');
-    function validarEmail(e) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(e);
-    }
-    // Prefill if remembered
+    const rememberCheckbox = document.getElementById('remember');
+    // Rellenar credenciales si fueron recordadas previamente
     try {
         const saved = JSON.parse(localStorage.getItem('rememberedCredentials') || 'null');
         if (saved && saved.email) {
-            if (email instanceof HTMLInputElement)
-                email.value = saved.email;
-            if (password instanceof HTMLInputElement)
-                password.value = saved.password || '';
-            if (remember instanceof HTMLInputElement)
-                remember.checked = true;
-        }
-        else {
-            const legacy = localStorage.getItem('user') || sessionStorage.getItem('user');
-            if (legacy && email instanceof HTMLInputElement)
-                email.value = legacy;
+            if (emailInput)
+                emailInput.value = saved.email;
+            if (passwordInput)
+                passwordInput.value = saved.password || '';
+            if (rememberCheckbox)
+                rememberCheckbox.checked = true;
         }
     }
-    catch (e) { }
-    function showError(el, text) {
-        if (el) {
-            el.textContent = text;
-            el.style.display = 'block';
-        }
-    }
-    function hideErrors() {
-        if (emailError)
-            emailError.style.display = 'none';
-        if (passError)
-            passError.style.display = 'none';
+    catch (e) {
+        console.error('Error al cargar credenciales recordadas:', e);
     }
     if (form) {
-        form.addEventListener('submit', function (ev) {
+        form.addEventListener('submit', (ev) => {
             ev.preventDefault();
-            const mail = (email instanceof HTMLInputElement) ? email.value.trim() : '';
-            const pass = (password instanceof HTMLInputElement) ? password.value.trim() : '';
-            const usersMarketplaceRaw = localStorage.getItem('usersMarketplace');
-            let users = usersMarketplaceRaw ? JSON.parse(usersMarketplaceRaw) : [];
-            const user = users.find(u => u.email === mail && u.password === pass);
-            if (!user) {
-                showError(passError, 'Correo o contraseña incorrectos.');
+            if (passError)
+                passError.style.display = 'none';
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+            if (!email || !password) {
+                showToast('Por favor, completa todos los campos.', 'error');
                 return;
             }
-            if (remember instanceof HTMLInputElement && remember.checked) {
-                localStorage.setItem('rememberedCredentials', JSON.stringify({ email: mail, password: pass }));
+            // Obtener base de datos de usuarios
+            const users = JSON.parse(localStorage.getItem('usersMarketplace') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            if (!user) {
+                if (passError) {
+                    passError.textContent = 'Correo o contraseña incorrectos.';
+                    passError.style.display = 'block';
+                }
+                return;
+            }
+            // Gestionar "Recordarme"
+            if (rememberCheckbox && rememberCheckbox.checked) {
+                localStorage.setItem('rememberedCredentials', JSON.stringify({ email, password }));
             }
             else {
                 localStorage.removeItem('rememberedCredentials');
             }
-            // Fusionar carrito del guest al nuevo usuario
-            const guestCart = JSON.parse(localStorage.getItem('shoppingCart_guest') || '[]');
-            localStorage.setItem('currentUser', mail);
-            localStorage.setItem('currentUserName', user.name || mail.split('@')[0]);
-            if (guestCart.length > 0) {
-                // El actual usuario logueado
-                const userCartKey = 'shoppingCart_' + mail;
-                let userCart = JSON.parse(localStorage.getItem(userCartKey) || '[]');
-                // Unir carritos (se podria agrupar por cantidades pero un .concat es seguro para empezar)
-                userCart = userCart.concat(guestCart);
-                localStorage.setItem(userCartKey, JSON.stringify(userCart));
-                localStorage.removeItem('shoppingCart_guest'); // Limpiar el guest cart
+            // Establecer sesión
+            const userName = user.name ? user.name : (email.split('@')[0] || 'Usuario');
+            localStorage.setItem('currentUser', email);
+            localStorage.setItem('currentUserName', userName);
+            // Fusionar carrito del invitado
+            if (email && typeof email === 'string') {
+                transferGuestCart(email);
             }
-            window.location.replace('index.html');
+            showToast(`¡Bienvenido de nuevo, ${userName}!`);
+            setTimeout(() => {
+                window.location.replace('index.html');
+            }, 1000);
         });
     }
-})();
-export {};
+});

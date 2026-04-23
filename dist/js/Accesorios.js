@@ -1,32 +1,38 @@
 /**
- * Mujer.ts
+ * Accesorios.ts
  *
- * Lógica dinámica para la sección de mujeres.
+ * Lógica dinámica para la sección de accesorios.
  */
-const productosMujer = [
+const productosAccesorios = [
     {
-        nombre: "Vestido Floral Premium",
-        precio: "$49.99",
-        imagen: "https://img.ltwebstatic.com/images3_pi/2022/01/09/164173464374cc3298a2fb93e64549e59ae21404e6.jpg",
-        descripcion: "Vestido ligero con estampado floral, ideal para eventos campestres o tardes elegantes."
+        nombre: "Cadenas de Plata",
+        precio: "$24.99",
+        imagen: "../images/cadena%20plata.jpg",
+        descripcion: "Cadena urbana en acero inoxidable o plata, ideal para looks street."
     },
     {
-        nombre: "Blusa Casual Seda",
-        precio: "$29.99",
-        imagen: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/883255720_1/w=1004,h=1004",
-        descripcion: "Blusa de seda con caída suave, cuello en V y acabados minimalistas."
+        nombre: "Collar Minimalista",
+        precio: "$19.99",
+        imagen: "../images/collar%20minimalista.jpg",
+        descripcion: "Collar minimalista con amuletos y acabados en dorado o plateado."
     },
     {
-        nombre: "Pantalón Denim Urbano",
-        precio: "$39.99",
-        imagen: "https://plazavea.vteximg.com.br/arquivos/ids/27312774-1000-1000/image-1.jpg?v=638273237701200000",
-        descripcion: "Jeans de corte moderno con talle alto y detalles desgastados premium."
+        nombre: "Gafas de Sol Urban",
+        precio: "$34.99",
+        imagen: "../images/gafas%20urbanas.jpg",
+        descripcion: "Gafas urbanas con montura negra o transparente y lentes polarizadas."
+    },
+    {
+        nombre: "Pulsera de Cuero",
+        precio: "$14.99",
+        imagen: "../images/pulseras%20cuero.jpg",
+        descripcion: "Pulsera de cuero o cadena con dijes, perfecta para combinar."
     }
 ];
 document.addEventListener('DOMContentLoaded', () => {
-    const contenedor = document.getElementById("productos-mujeres");
+    const contenedor = document.getElementById("productos-accesorios");
     if (contenedor) {
-        productosMujer.forEach(producto => {
+        productosAccesorios.forEach(producto => {
             const card = document.createElement("article");
             card.classList.add("product-card");
             card.innerHTML = `
@@ -39,9 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="action-item">
                             <label>Talla:</label>
                             <select class="size-select">
-                                <option value="S">S</option>
-                                <option value="M">M</option>
-                                <option value="L">L</option>
+                                <option value="Única">Única</option>
+                                <option value="Ajustable">Ajustable</option>
                             </select>
                         </div>
                         <div class="action-item">
@@ -54,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             contenedor.appendChild(card);
         });
-        console.log('Productos de mujeres cargados dinámicamente.');
+        console.log('Productos de accesorios cargados dinámicamente.');
     }
 });
 export {};

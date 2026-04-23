@@ -1,38 +1,35 @@
 /**
- * Mujer.ts
+ * Hombre.ts
  *
- * Lógica dinámica para la sección de mujeres.
+ * Maneja la lógica específica de la sección de hombres,
+ * incluyendo el renderizado dinámico de productos.
  */
-const productosMujer = [
+const productos = [
     {
-        nombre: "Vestido Floral Premium",
-        precio: "$49.99",
-        imagen: "https://img.ltwebstatic.com/images3_pi/2022/01/09/164173464374cc3298a2fb93e64549e59ae21404e6.jpg",
-        descripcion: "Vestido ligero con estampado floral, ideal para eventos campestres o tardes elegantes."
+        nombre: "Camiseta Urbana Premium",
+        precio: "$59.90",
+        imagen: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQR98yhYHDIJauIVcrsjpOLQyuNi6zR72mhU9jqYLPFHg9zTk8V-pzQF4XVs5gQkza2MtSvxWw8R5ufsZZab_kKqMxsSA125A"
     },
     {
-        nombre: "Blusa Casual Seda",
-        precio: "$29.99",
-        imagen: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/883255720_1/w=1004,h=1004",
-        descripcion: "Blusa de seda con caída suave, cuello en V y acabados minimalistas."
+        nombre: "Chaqueta Street Noir",
+        precio: "$149.90",
+        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkPkRf_4qkEtUcloGT4ku2NKH3g3R49Zqezg&s"
     },
     {
-        nombre: "Pantalón Denim Urbano",
-        precio: "$39.99",
-        imagen: "https://plazavea.vteximg.com.br/arquivos/ids/27312774-1000-1000/image-1.jpg?v=638273237701200000",
-        descripcion: "Jeans de corte moderno con talle alto y detalles desgastados premium."
+        nombre: "Pantalón Cargo Urbano",
+        precio: "$89.90",
+        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSplZ28NDXmNErsgnn_H9qAQ-41jJ4X4bQotw&s"
     }
 ];
 document.addEventListener('DOMContentLoaded', () => {
-    const contenedor = document.getElementById("productos-mujeres");
+    const contenedor = document.getElementById("productos-hombres");
     if (contenedor) {
-        productosMujer.forEach(producto => {
+        productos.forEach(producto => {
             const card = document.createElement("article");
             card.classList.add("product-card");
             card.innerHTML = `
                 <img src="${producto.imagen}" alt="${producto.nombre}">
                 <h3>${producto.nombre}</h3>
-                <p style="padding: 0 1.2rem; font-size: 0.9em; color: #666;">${producto.descripcion}</p>
                 <p class="price">${producto.precio}</p>
                 <div class="product-actions">
                     <div class="action-row">
@@ -54,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             contenedor.appendChild(card);
         });
-        console.log('Productos de mujeres cargados dinámicamente.');
+        console.log('Productos de hombres cargados dinámicamente.');
     }
 });
 export {};

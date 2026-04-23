@@ -1,105 +1,77 @@
-(function () {
+import { 
+    transferGuestCart,
+    showToast
+} from './Common.js';
+
+/**
+ * Registro.ts
+ * 
+ * Maneja el registro de nuevos usuarios, asegurando que no existan correos duplicados
+ * y estableciendo automáticamente la sesión tras un registro exitoso.
+ */
+
+interface User {
+    email: string;
+    password: string;
+    name?: string;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
     // Redirigir si ya hay un usuario logueado
     if (localStorage.getItem('currentUser')) {
-        if (window.history.length > 2) {
-            window.history.back();
-        } else {
-            window.location.replace('index.html');
-        }
+        window.location.replace('index.html');
         return;
     }
-    const form = document.getElementById('registroForm') as HTMLFormElement;
+
+    const form = document.getElementById('registroForm') || document.getElementById('registrationForm');
     const nameInput = document.getElementById('name') as HTMLInputElement;
     const emailInput = document.getElementById('email') as HTMLInputElement;
     const passwordInput = document.getElementById('password') as HTMLInputElement;
     const emailError = document.getElementById('emailError') as HTMLElement;
 
-<<<<<<< HEAD
     if (form) {
-        form.addEventListener('submit', function (ev: Event) {
+        (form as HTMLFormElement).addEventListener('submit', (ev: Event) => {
             ev.preventDefault();
-            hideErrors();
-=======
-    if (form) form.addEventListener('submit', function (ev) {
-        ev.preventDefault();
-        hideErrors();
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
+            
+            if (emailError) emailError.style.display = 'none';
 
-            const name = (nameInput instanceof HTMLInputElement) ? nameInput.value.trim() : '';
-            const email = (emailInput instanceof HTMLInputElement) ? emailInput.value.trim() : '';
-            const password = (passwordInput instanceof HTMLInputElement) ? passwordInput.value.trim() : '';
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
 
-<<<<<<< HEAD
-            // Obtener usuarios existentes
-            const usersRaw = localStorage.getItem('usersMarketplace');
-            let users: any[] = usersRaw ? JSON.parse(usersRaw) : [];
-
-            // Verificar si el correo ya existe
-            const userExists = users.find(u => u.email === email);
-            if (userExists) {
-                showError(emailError as HTMLElement, 'El correo ya está registrado.');
+            if (!name || !email || !password) {
+                showToast('Por favor, completa todos los campos.', 'error');
                 return;
             }
-=======
-        // Obtener usuarios existentes
-        let users = JSON.parse(localStorage.getItem('usersMarketplace') || '[]');
 
-        // Verificar si el correo ya existe
-        const userExists = users.find((u: any) => u.email === email);
-        if (userExists) {
-            showError(emailError, 'El correo ya está registrado.');
-            return;
-        }
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
+            // Obtener usuarios existentes
+            const users: User[] = JSON.parse(localStorage.getItem('usersMarketplace') || '[]');
 
-            // Crear nuevo usuario
-            const newUser = {
-                name: name,
-                email: email,
-                password: password
-            };
+            // Verificar duplicados
+            if (users.some(u => u.email === email)) {
+                if (emailError) {
+                    emailError.textContent = 'El correo ya está registrado.';
+                    emailError.style.display = 'block';
+                }
+                return;
+            }
 
+            // Registrar nuevo usuario
+            const newUser: User = { name, email, password };
             users.push(newUser);
             localStorage.setItem('usersMarketplace', JSON.stringify(users));
 
-            // Fusionar carrito del guest al nuevo usuario
-            const guestCart = JSON.parse(localStorage.getItem('shoppingCart_guest') || '[]');
+            // Iniciar sesión automáticamente
             localStorage.setItem('currentUser', email);
             localStorage.setItem('currentUserName', name);
             
-            if (guestCart.length > 0) {
-                const userCartKey = 'shoppingCart_' + email;
-                // Para registro es usuario nuevo seguro el carrito nativo está vacío
-                localStorage.setItem(userCartKey, JSON.stringify(guestCart));
-                localStorage.removeItem('shoppingCart_guest'); // Limpiar
-            }
+            // Fusionar carrito del invitado (si existe)
+            transferGuestCart(email);
 
-<<<<<<< HEAD
-            alert('Registro exitoso! Iniciando sesión...');
-            window.location.replace('index.html');
+            showToast('¡Registro exitoso! Bienvenido a UrbanStyle.');
+            setTimeout(() => {
+                window.location.replace('index.html');
+            }, 1000);
         });
     }
-
-    function showError(el: HTMLElement | null, text: string): void {
-        if (el) {
-            el.textContent = text;
-            el.style.display = 'block';
-        }
-    }
-
-    function hideErrors(): void {
-=======
-        alert('Registro exitoso! Iniciando sesión...');
-        window.location.replace('index.html');
-    });
-
-    function showError(el: HTMLElement, text: string) {
-        el.textContent = text;
-        el.style.display = 'block';
-    }
-
-    function hideErrors() {
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-        if (emailError) emailError.style.display = 'none';
-    }
-})();
+});

@@ -1,130 +1,93 @@
-(function () {
-	// Redirigir si ya hay un usuario logueado
-	if (localStorage.getItem('currentUser')) {
-		if (window.history.length > 2) {
-			window.history.back();
-		} else {
-			window.location.replace('index.html');
-		}
-		return;
-	}
+import { 
+    transferGuestCart,
+    showToast
+} from './Common.js';
 
-	interface User {
-		email: string;
-		password: string;
-		name?: string;
-	}
+/**
+ * Login.ts
+ * 
+ * Maneja el inicio de sesión de usuarios, validación de credenciales
+ * y persistencia de sesión. También integra la transferencia del carrito.
+ */
 
-<<<<<<< HEAD
-	function validarEmail(e: string): boolean {
-=======
-	const form = document.getElementById('loginForm') as HTMLFormElement;
-	const email = document.getElementById('email') as HTMLInputElement;
-	const password = document.getElementById('password') as HTMLInputElement;
-	const emailError = document.getElementById('emailError') as HTMLElement;
-	const passError = document.getElementById('passError') as HTMLElement;
-	const remember = document.getElementById('remember') as HTMLInputElement;
+interface User {
+    email: string;
+    password: string;
+    name?: string;
+}
 
-	function validarEmail(e: string) {
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-		const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return re.test(e);
-	}
+document.addEventListener('DOMContentLoaded', () => {
+    // Redirigir si ya hay un usuario logueado
+    if (localStorage.getItem('currentUser')) {
+        window.location.replace('index.html');
+        return;
+    }
 
-	// Prefill if remembered
-	try {
-		const saved = JSON.parse(localStorage.getItem('rememberedCredentials') || 'null');
-		if (saved && saved.email) {
-			if (email instanceof HTMLInputElement) email.value = saved.email;
-			if (password instanceof HTMLInputElement) password.value = saved.password || '';
-			if (remember instanceof HTMLInputElement) remember.checked = true;
-		} else {
-			const legacy = localStorage.getItem('user') || sessionStorage.getItem('user');
-			if (legacy && email instanceof HTMLInputElement) email.value = legacy;
-		}
-	} catch (e) { }
+    const form = document.getElementById('loginForm') as HTMLFormElement;
+    const emailInput = document.getElementById('email') as HTMLInputElement;
+    const passwordInput = document.getElementById('password') as HTMLInputElement;
+    const passError = document.getElementById('passError') as HTMLElement;
+    const rememberCheckbox = document.getElementById('remember') as HTMLInputElement;
 
-<<<<<<< HEAD
-	function showError(el: HTMLElement | null, text: string): void {
-		if (el) {
-			el.textContent = text;
-			el.style.display = 'block';
-		}
-=======
-	function showError(el: HTMLElement, text: string) {
-		el.textContent = text;
-		el.style.display = 'block';
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-	}
+    // Rellenar credenciales si fueron recordadas previamente
+    try {
+        const saved = JSON.parse(localStorage.getItem('rememberedCredentials') || 'null');
+        if (saved && saved.email) {
+            if (emailInput) emailInput.value = saved.email;
+            if (passwordInput) passwordInput.value = saved.password || '';
+            if (rememberCheckbox) rememberCheckbox.checked = true;
+        }
+    } catch (e) {
+        console.error('Error al cargar credenciales recordadas:', e);
+    }
 
-	function hideErrors(): void {
-		if (emailError) emailError.style.display = 'none';
-		if (passError) passError.style.display = 'none';
-	}
+    if (form) {
+        form.addEventListener('submit', (ev: Event) => {
+            ev.preventDefault();
+            
+            if (passError) passError.style.display = 'none';
 
-	if (form) {
-		form.addEventListener('submit', function (ev: Event) {
-			ev.preventDefault();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
 
-			const mail = (email instanceof HTMLInputElement) ? email.value.trim() : '';
-			const pass = (password instanceof HTMLInputElement) ? password.value.trim() : '';
+            if (!email || !password) {
+                showToast('Por favor, completa todos los campos.', 'error');
+                return;
+            }
 
-<<<<<<< HEAD
-			const usersMarketplaceRaw = localStorage.getItem('usersMarketplace');
-			let users: any[] = usersMarketplaceRaw ? JSON.parse(usersMarketplaceRaw) : [];
-			const user = users.find(u => u.email === mail && u.password === pass);
-=======
-		let users: User[] = JSON.parse(localStorage.getItem('usersMarketplace') || '[]');
-		const user = users.find((u: User) => u.email === mail && u.password === pass);
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
+            // Obtener base de datos de usuarios
+            const users: User[] = JSON.parse(localStorage.getItem('usersMarketplace') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
 
-			if (!user) {
-				showError(passError as HTMLElement, 'Correo o contraseña incorrectos.');
-				return;
-			}
+            if (!user) {
+                if (passError) {
+                    passError.textContent = 'Correo o contraseña incorrectos.';
+                    passError.style.display = 'block';
+                }
+                return;
+            }
 
-<<<<<<< HEAD
-			if (remember instanceof HTMLInputElement && remember.checked) {
-				localStorage.setItem('rememberedCredentials', JSON.stringify({ email: mail, password: pass }));
-			} else {
-				localStorage.removeItem('rememberedCredentials');
-			}
-=======
-		if (remember.checked) {
-			localStorage.setItem('rememberedCredentials', JSON.stringify({ email: mail, password: pass }));
-		} else {
-			localStorage.removeItem('rememberedCredentials');
-		}
-		
-		// Fusionar carrito del guest al nuevo usuario
-		const guestCart = JSON.parse(localStorage.getItem('shoppingCart_guest') || '[]');
-		localStorage.setItem('currentUser', mail);
-		localStorage.setItem('currentUserName', (user.name || mail.split('@')[0]) as string);
-		
-		if (guestCart.length > 0) {
-			// El actual usuario logueado
-			const userCartKey = 'shoppingCart_' + mail;
-			let userCart = JSON.parse(localStorage.getItem(userCartKey) || '[]');
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-			
-			// Fusionar carrito del guest al nuevo usuario
-			const guestCart = JSON.parse(localStorage.getItem('shoppingCart_guest') || '[]');
-			localStorage.setItem('currentUser', mail);
-			localStorage.setItem('currentUserName', user.name || mail.split('@')[0]);
-			
-			if (guestCart.length > 0) {
-				// El actual usuario logueado
-				const userCartKey = 'shoppingCart_' + mail;
-				let userCart = JSON.parse(localStorage.getItem(userCartKey) || '[]');
-				
-				// Unir carritos (se podria agrupar por cantidades pero un .concat es seguro para empezar)
-				userCart = userCart.concat(guestCart);
-				localStorage.setItem(userCartKey, JSON.stringify(userCart));
-				localStorage.removeItem('shoppingCart_guest'); // Limpiar el guest cart
-			}
+            // Gestionar "Recordarme"
+            if (rememberCheckbox && rememberCheckbox.checked) {
+                localStorage.setItem('rememberedCredentials', JSON.stringify({ email, password }));
+            } else {
+                localStorage.removeItem('rememberedCredentials');
+            }
+            
+            // Establecer sesión
+            const userName = user.name ? user.name : (email.split('@')[0] || 'Usuario');
+            localStorage.setItem('currentUser', email);
+            localStorage.setItem('currentUserName', userName);
+            
+            // Fusionar carrito del invitado
+            if (email && typeof email === 'string') {
+                transferGuestCart(email);
+            }
 
-			window.location.replace('index.html');
-		});
-	}
-
-})();
+            showToast(`¡Bienvenido de nuevo, ${userName}!`);
+            setTimeout(() => {
+                window.location.replace('index.html');
+            }, 1000);
+        });
+    }
+});

@@ -1,269 +1,319 @@
+import { 
+    getCurrentUser, 
+    getCurrentUserName, 
+    cartKey, 
+    getCart, 
+    saveCart, 
+    updateCartBadge,
+    showToast
+} from './Common.js';
+
+/**
+ * Carrito.ts
+ * 
+ * Gestiona toda la lógica del carrito de compras: añadir productos, 
+ * renderizar la lista, calcular totales y el proceso de pago (checkout).
+ */
+
 declare global {
     interface Window {
         addToCart: (item: { title: string; price: string; size?: string; quantity?: number }) => void;
-        updateCartBadge: () => void;
     }
 }
 
-(function(){
-    // cart key per current user
-    function getCurrentUser() {
-        return localStorage.getItem('currentUser') || 'guest';
-    }
-
-    function cartKey() {
-        return 'shoppingCart_' + getCurrentUser();
-    }
-
-    function getCart() {
-        return JSON.parse(localStorage.getItem(cartKey()) || '[]');
-    }
-
-<<<<<<< HEAD
-    function saveCart(cart: any[]): void {
-=======
-    function saveCart(cart: any[]) {
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-        localStorage.setItem(cartKey(), JSON.stringify(cart));
-    }
-
-    // hace disponible la función globalmente
-    (window as any).addToCart = function(item: any): void {
-        const cart = getCart();
+/**
+ * Añade un producto al carrito persistente del usuario actual.
+ * @param {any} item - El objeto del producto a añadir.
+ */
+export function addToCart(item: any): void {
+    const cart = getCart();
+    
+    // Verificar si el producto ya existe para incrementar cantidad
+    const existingItem = cart.find((it: any) => it.title === item.title && it.size === item.size);
+    if (existingItem) {
+        existingItem.quantity = (existingItem.quantity || 1) + (item.quantity || 1);
+    } else {
         cart.push(item);
-        saveCart(cart);
-        alert('Producto agregado al carrito');
-<<<<<<< HEAD
-        if(typeof (window as any).updateCartBadge === 'function') (window as any).updateCartBadge();
-=======
-        if(typeof window.updateCartBadge === 'function') window.updateCartBadge();
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-    };
+    }
+    
+    saveCart(cart);
+    showToast(`¡${item.title} añadido al carrito!`);
+    updateCartBadge();
+    
+    // Si estamos en la página del carrito, re-renderizar
+    if (document.getElementById('cartItems')) {
+        renderCart();
+    }
+}
 
-    function renderCart(): void {
-        const cart = getCart();
-        const container = document.getElementById('cartItems');
-        const summaryEl = document.getElementById('cartSummary');
-        if(!container) return;
-        container.innerHTML = '';
-        if(summaryEl) summaryEl.innerHTML = '';
+// Hacer disponible globalmente para facilitar la integración con el HTML
+(window as any).addToCart = addToCart;
 
-        if(cart.length === 0) {
-            container.textContent = 'No hay productos en el carrito.';
+/**
+ * Renderiza los elementos del carrito en el DOM.
+ * Calcula el subtotal y el total de la compra.
+ */
+function renderCart(): void {
+    const cart = getCart();
+    const container = document.getElementById('cartItems');
+    const summaryEl = document.getElementById('cartSummary');
+    
+    if (!container) return;
+    
+    container.innerHTML = '';
+    if (summaryEl) summaryEl.innerHTML = '';
+
+    if (cart.length === 0) {
+        container.innerHTML = `
+            <div class="empty-cart-container" style="text-align: center; padding: 3rem;">
+                <p class="empty-cart-msg" style="font-size: 1.2rem; color: #888;">Tu carrito está vacío. ¡Empieza a comprar!</p>
+                <a href="Hombre.html" class="btn-primary" style="display: inline-block; margin-top: 1rem; padding: 0.8rem 2rem; background: var(--primary-color); color: white; border-radius: 8px; text-decoration: none;">Ver Catálogo</a>
+            </div>
+        `;
+        return;
+    }
+
+    let total = 0;
+    cart.forEach((it: any, index: number) => {
+        const qty = it.quantity || 1;
+        const itemPrice = parseFloat(String(it.price).replace(/[^0-9\.]+/g, '')) || 0;
+        const subtotalItem = itemPrice * qty;
+        total += subtotalItem;
+
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+            <div class="item-info">
+                <span class="item-name">${it.title}</span>
+                <span class="item-details">${it.size ? `Talla: ${it.size}` : ''}</span>
+            </div>
+            <div class="item-controls">
+                <button class="qty-btn minus" data-index="${index}">−</button>
+                <span class="qty-display">${qty}</span>
+                <button class="qty-btn plus" data-index="${index}">+</button>
+            </div>
+            <div class="item-price-block">
+                <span class="item-price">$${subtotalItem.toFixed(2)}</span>
+                <button class="btn-remove" data-index="${index}">ELIMINAR</button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+
+    // Eventos para botones de cantidad
+    container.querySelectorAll('.qty-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const btnEl = e.target as HTMLElement;
+            const idx = parseInt(btnEl.getAttribute('data-index') || '0', 10);
+            const isPlus = btnEl.classList.contains('plus');
+            updateQuantity(idx, isPlus ? 1 : -1);
+        });
+    });
+
+    // Eventos para eliminar ítems
+    container.querySelectorAll('.btn-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const idx = parseInt((e.target as HTMLElement).getAttribute('data-index') || '0', 10);
+            removeFromCart(idx);
+        });
+    });
+
+    if (summaryEl) {
+        summaryEl.innerHTML = `
+            <div class="cart-total" style="display: flex; justify-content: flex-end; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <span style="font-size: 1.2rem;">Total a pagar:</span>
+                <span class="total-amount" style="font-size: 1.8rem; font-weight: 800; color: var(--accent-color);">$${total.toFixed(2)}</span>
+            </div>
+            <div class="cart-actions" style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                <button class="btn-clear-cart" style="background: none; border: 1px solid #ccc; padding: 0.8rem 1.5rem; border-radius: 30px; cursor: pointer; transition: all 0.3s;">Vaciar Carrito</button>
+                <button class="btn-checkout btn-primary" style="border: none; cursor: pointer;">Proceder al Pago</button>
+            </div>
+        `;
+        
+        summaryEl.querySelector('.btn-checkout')?.addEventListener('click', () => openPaymentModal(total));
+        summaryEl.querySelector('.btn-clear-cart')?.addEventListener('click', () => {
+            if (confirm('¿Estás seguro de que deseas vaciar todo el carrito?')) {
+                saveCart([]);
+                renderCart();
+                updateCartBadge();
+                showToast('Carrito vaciado', 'info');
+            }
+        });
+    }
+}
+
+/**
+ * Actualiza la cantidad de un ítem en el carrito.
+ * @param {number} index - Índice del ítem.
+ * @param {number} delta - Cambio en la cantidad (+1 o -1).
+ */
+function updateQuantity(index: number, delta: number): void {
+    const cart = getCart();
+    if (cart[index]) {
+        cart[index].quantity = (cart[index].quantity || 1) + delta;
+        if (cart[index].quantity < 1) {
+            removeFromCart(index);
+        } else {
+            saveCart(cart);
+            renderCart();
+            updateCartBadge();
+        }
+    }
+}
+
+/**
+ * Elimina un producto del carrito por su índice.
+ * @param {number} index - Posición del producto en el array.
+ */
+function removeFromCart(index: number): void {
+    const cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+    renderCart();
+    updateCartBadge();
+}
+
+/**
+ * Muestra el nombre del usuario o invita a registrarse.
+ */
+function showStatusHeader(): void {
+    const user = getCurrentUser();
+    const userName = getCurrentUserName();
+    const el = document.getElementById('userName');
+    const promo = document.getElementById('guestPromo');
+
+    if (user === 'guest') {
+        if (el) el.textContent = 'Invitado';
+        if (promo) promo.style.display = 'block';
+    } else {
+        if (el) el.textContent = (userName || user.split('@')[0]) as string | null;
+        if (promo) promo.style.display = 'none';
+    }
+}
+
+/**
+ * Escucha clics globales para el botón "Añadir al carrito" en cualquier página.
+ */
+document.addEventListener('click', (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const buyButton = target.closest('.buy-button') as HTMLButtonElement | null;
+    
+    if (buyButton) {
+        e.preventDefault();
+        const card = buyButton.closest('.product-card') as HTMLElement || buyButton.closest('.card') as HTMLElement;
+        if (!card) return;
+
+        const title = card.querySelector('h2, h3')?.textContent?.trim() || 'Producto';
+        const price = card.querySelector('.price')?.textContent?.trim() || '$0';
+        const sizeSelect = card.querySelector('.size-select') as HTMLSelectElement | null;
+        const size = sizeSelect ? sizeSelect.value : 'M';
+        const quantityInput = card.querySelector('.quantity-input') as HTMLInputElement | null;
+        const quantity = quantityInput ? parseInt(quantityInput.value, 10) : 1;
+
+        if (isNaN(quantity) || quantity <= 0) {
+            showToast('Por favor, ingresa una cantidad válida.', 'error');
             return;
         }
 
-        let total = 0;
-<<<<<<< HEAD
-        cart.forEach((it: any) => {
-=======
-        cart.forEach((it: any, idx: number) => {
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-            const qty = it.quantity || 1;
-            const div = document.createElement('div');
-            div.className = 'cart-item';
-            div.innerHTML = `
-                <span class="item-name">${it.title} (x${qty})</span>
-                <span class="item-price">${it.price}</span>
-                ${it.size ? `<span class="item-size">Talla: ${it.size}</span>` : ''}
-            `;
-            container.appendChild(div);
-
-            const priceStr = String(it.price);
-            const num = parseFloat(priceStr.replace(/[^0-9\.]+/g, ''));
-            if(!isNaN(num)) total += num * qty;
-        });
-
-        if(summaryEl) {
-            summaryEl.innerHTML = `<div>Total: $${total.toFixed(2)}</div>`;
-            const btn = document.createElement('button');
-            btn.textContent = 'Proceder al Pago';
-            btn.className = 'btn-checkout';
-            btn.addEventListener('click', function(){
-                openPaymentModal(total);
-            });
-            summaryEl.appendChild(btn);
-        }
+        addToCart({ title, price, size, quantity });
     }
+});
 
-    function showUserName() {
-        const user = getCurrentUser();
-        const userName = localStorage.getItem('currentUserName');
-        const el = document.getElementById('userName');
-        const promo = document.getElementById('guestPromo');
-
-        if (user === 'guest') {
-            if(el) el.textContent = 'Invitado';
-            if(promo) promo.style.display = 'block';
-        } else {
-<<<<<<< HEAD
-            if(el) el.textContent = (userName || user.split('@')[0]) || '';
-=======
-            if(el) el.textContent = (userName || user.split('@')[0]) as string;
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-            if(promo) promo.style.display = 'none';
-        }
-    }
-
-    // listener genérico para agregar al carrito desde cualquier página
-    (window as any).addToCart = function(item: any): void {
-        const cart = getCart();
-        cart.push(item);
-        saveCart(cart);
-        alert('Producto agregado al carrito');
-<<<<<<< HEAD
-        if(typeof (window as any).updateCartBadge === 'function') (window as any).updateCartBadge();
-    };
-
-    document.addEventListener('click', function(e: MouseEvent){
-=======
-        if(typeof window.updateCartBadge === 'function') window.updateCartBadge();
-    };
-
-    document.addEventListener('click', function(e){
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-        const btn = e.target as HTMLElement;
-        if(btn && btn.tagName === 'BUTTON'){
-            const card = btn.closest('.product-card') || btn.closest('.card');
-            if(card) {
-                const titleEl = card.querySelector('h2, h3');
-                const priceEl = card.querySelector('.price');
-<<<<<<< HEAD
-                const sizeEl = card.querySelector('.size-select') as HTMLSelectElement | null;
-                const quantityEl = card.querySelector('.quantity-input') as HTMLInputElement | null;
-                const title = titleEl ? titleEl.textContent?.trim() || '' : '';
-                const price = priceEl ? priceEl.textContent?.trim() || '' : '';
-                const size = sizeEl ? sizeEl.value : '';
-                const quantity = quantityEl ? parseInt(quantityEl.value, 10) || 1 : 1;
-                (window as any).addToCart({ title, price, size, quantity });
-=======
-                const sizeEl = card.querySelector('.size-select');
-                const quantityEl = card.querySelector('.quantity-input');
-                const title = titleEl ? titleEl.textContent!.trim() : '';
-                const price = priceEl ? priceEl.textContent!.trim() : '';
-                const size = sizeEl ? (sizeEl as HTMLInputElement).value : '';
-                const quantity = quantityEl ? parseInt((quantityEl as HTMLInputElement).value, 10) || 1 : 1;
-                window.addToCart({ title, price, size, quantity });
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-            }
-        }
-    });
-
-    function clearCart(){
-        saveCart([]);
-    }
-
-    // Lógica del Modal de Pago
-<<<<<<< HEAD
-    function openPaymentModal(total: number): void {
-=======
-    function openPaymentModal(total: number) {
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-        const modal = document.getElementById('paymentModal');
-        const modalSubtotal = document.getElementById('modalSubtotal');
-        const modalTotal = document.getElementById('modalTotal');
+/**
+ * Lógica del Modal de Pago
+ */
+function openPaymentModal(total: number): void {
+    const modal = document.getElementById('paymentModal');
+    const modalSubtotal = document.getElementById('modalSubtotal');
+    const modalTotal = document.getElementById('modalTotal');
+    
+    if (modal && modalSubtotal && modalTotal) {
+        modalSubtotal.textContent = '$' + total.toFixed(2);
+        modalTotal.textContent = '$' + total.toFixed(2);
+        modal.style.display = 'flex';
         
-<<<<<<< HEAD
-        if (modal && modalSubtotal && modalTotal) {
-            modalSubtotal.textContent = '$' + total.toFixed(2);
-            modalTotal.textContent = '$' + total.toFixed(2);
-=======
+        // Centrar scroll al mostrar modal
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+/**
+ * Inicialización al cargar el carrito.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('cartItems')) {
+        showStatusHeader();
+        renderCart();
+
+        const modal = document.getElementById('paymentModal');
         if (modal) {
-            modalSubtotal!.textContent = '$' + total.toFixed(2);
-            modalTotal!.textContent = '$' + total.toFixed(2);
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-            modal.style.display = 'flex';
+            const closeModalBtn = modal.querySelector('.close-modal');
+            const paymentForm = document.getElementById('paymentForm') as HTMLFormElement | null;
+            const radios = document.querySelectorAll('input[name="paymentMethod"]');
+            const cardBlock = document.getElementById('cardDetailsBlock');
+
+            closeModalBtn?.addEventListener('click', () => modal.style.display = 'none');
+
+            radios.forEach(radio => {
+                radio.addEventListener('change', (e: Event) => {
+                    if (cardBlock) {
+                        cardBlock.style.display = (e.target as HTMLInputElement).value === 'card' ? 'block' : 'none';
+                    }
+                });
+            });
+
+            paymentForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                processPayment(modal);
+            });
+        }
+    }
+});
+
+/**
+ * Simula el procesamiento del pago.
+ */
+function processPayment(modal: HTMLElement): void {
+    const checkedRadio = document.querySelector('input[name="paymentMethod"]:checked') as HTMLInputElement | null;
+    if (!checkedRadio) return;
+
+    if (checkedRadio.value === 'card') {
+        const cardNumber = (document.getElementById('cardNumber') as HTMLInputElement | null)?.value || '';
+        if (cardNumber.length < 15) {
+            showToast('Por favor ingrese un número de tarjeta válido.', 'error');
+            return;
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function(){
-        if(document.getElementById('cartItems')){
-            showUserName();
-            renderCart();
+    modal.style.display = 'none';
+    
+    // Efecto visual de éxito premium
+    const successMsg = document.createElement('div');
+    successMsg.className = 'payment-success-overlay';
+    successMsg.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(255, 255, 255, 0.95); display: flex; flex-direction: column;
+        justify-content: center; align-items: center; z-index: 10000;
+        animation: fadeIn 0.5s ease-out;
+    `;
+    successMsg.innerHTML = `
+        <div style="font-size: 5rem; margin-bottom: 20px; animation: scaleUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">✅</div>
+        <h2 style="color: var(--primary-color); font-size: 2.5rem; margin-bottom: 10px;">¡Pago Exitoso!</h2>
+        <p style="font-size: 1.2rem; color: #555;">Tu pedido está en camino. Gracias por elegir <strong>UrbanStyle</strong>.</p>
+        <div style="margin-top: 30px; border-bottom: 2px solid var(--accent-color); width: 50px;"></div>
+    `;
+    document.body.appendChild(successMsg);
 
-            // Configurar eventos del modal de pago si existe
-            const modal = document.getElementById('paymentModal');
-            if (modal) {
-                const closeModalBtn = modal.querySelector('.close-modal');
-                const paymentForm = document.getElementById('paymentForm') as HTMLFormElement | null;
-                const radios = document.querySelectorAll('input[name="paymentMethod"]');
-                const cardBlock = document.getElementById('cardDetailsBlock');
-
-                // Cerrar modal
-<<<<<<< HEAD
-                if (closeModalBtn) {
-                    closeModalBtn.addEventListener('click', () => {
-                        modal.style.display = 'none';
-                    });
-                }
-
-                // Cambiar métodos de pago
-                radios.forEach(radio => {
-                    radio.addEventListener('change', (e: Event) => {
-                        const target = e.target as HTMLInputElement;
-                        if (cardBlock) {
-                            if (target.value === 'card') {
-                                cardBlock.style.display = 'block';
-                            } else {
-                                cardBlock.style.display = 'none';
-                            }
-=======
-                closeModalBtn!.addEventListener('click', () => {
-                    modal.style.display = 'none';
-                });
-
-                // Cambiar métodos de pago
-                radios.forEach(radio => {
-                    radio.addEventListener('change', (e) => {
-                        if ((e.target as HTMLInputElement).value === 'card') {
-                            cardBlock!.style.display = 'block';
-                        } else {
-                            cardBlock!.style.display = 'none';
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-                        }
-                    });
-                });
-
-                // Procesar pago simulado
-<<<<<<< HEAD
-                if (paymentForm) {
-                    paymentForm.addEventListener('submit', (e: Event) => {
-                        e.preventDefault();
-                        
-                        const checkedRadio = document.querySelector('input[name="paymentMethod"]:checked') as HTMLInputElement | null;
-                        if (!checkedRadio) return;
-                        
-                        const method = checkedRadio.value;
-                        if (method === 'card') {
-                            const cardNumberEl = document.getElementById('cardNumber') as HTMLInputElement | null;
-                            if(cardNumberEl) {
-                                const cn = cardNumberEl.value;
-                                if(cn.length < 15) {
-                                    alert('Por favor ingrese una tarjeta válida para simular el pago.');
-                                    return;
-                                }
-                            }
-=======
-                paymentForm!.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    
-                    const method = (document.querySelector('input[name="paymentMethod"]:checked') as HTMLInputElement).value;
-                    if (method === 'card') {
-                        const cn = (document.getElementById('cardNumber') as HTMLInputElement).value;
-                        if(cn.length < 15) {
-                            alert('Por favor ingrese una tarjeta válida para simular el pago.');
-                            return;
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-                        }
-
-                        modal.style.display = 'none';
-                        alert('¡Pago Procesado Exitosamente!\nGracias por tu compra en UrbanStyle.');
-                        clearCart();
-                        renderCart();
-                        window.location.href = 'index.html'; // Devolver al inicio al terminar
-                    });
-                }
-            }
-        }
-    });
-})();
+    saveCart([]); // Limpiar carrito
+    renderCart();
+    updateCartBadge();
+    
+    setTimeout(() => {
+        successMsg.style.opacity = '0';
+        successMsg.style.transition = 'opacity 1s';
+        setTimeout(() => {
+            successMsg.remove();
+            window.location.href = 'index.html';
+        }, 1000);
+    }, 3000);
+}

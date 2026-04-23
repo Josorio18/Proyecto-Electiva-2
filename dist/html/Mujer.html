@@ -4,122 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sección Mujeres</title>
+    <meta name="description" content="Sección de Mujeres UrbanStyle - Encuentra la mejor moda femenina con el estilo urbano más sofisticado.">
+    <title>UrbanStyle - Mujeres</title>
     <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="stylesheet" href="../CSS/Mujer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header>
-        <h1>Ropa para Mujeres</h1>
+        <div class="logo-container">
+            <h1>UrbanStyle</h1>
+        </div>
         <nav>
             <a href="index.html">Inicio</a>
-            <a href="Hombre.html">Hombre</a>
-            <a href="Mujer.html" class="active">Mujer</a>
+            <a href="Hombre.html">Hombres</a>
+            <a href="Mujer.html" class="active">Mujeres</a>
             <a href="Accesorios.html">Accesorios</a>
             <a href="Carrito.html">Carrito</a>
             <a href="Login.html">Login</a>
         </nav>
     </header>
 
-    <main class="products">
-        <!-- Product 1 -->
-        <article class="product-card">
-            <img src="https://img.ltwebstatic.com/images3_pi/2022/01/09/164173464374cc3298a2fb93e64549e59ae21404e6.jpg"
-                alt="Vestido Floral">
-            <h2>Vestido Floral</h2>
-            <p class="price">$49.99</p>
-            <label for="size1">Talla:</label>
-            <select id="size1" class="size-select">
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-            </select>
-            <label for="qty1">Cantidad:</label>
-            <input type="number" id="qty1" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-            <button class="buy-button">Añadir al carrito</button>
-        </article>
-
-        <!-- Product 2 -->
-        <article class="product-card">
-            <img src="https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/883255720_1/w=1004,h=1004"
-                alt="Blusa Casual">
-            <h2>Blusa Casual</h2>
-            <p class="price">$29.99</p>
-            <label for="size2">Talla:</label>
-            <select id="size2" class="size-select">
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-            </select>
-            <label for="qty2">Cantidad:</label>
-            <input type="number" id="qty2" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-            <button class="buy-button">Añadir al carrito</button>
-        </article>
-
-        <!-- Product 3 -->
-        <article class="product-card">
-            <img src="https://plazavea.vteximg.com.br/arquivos/ids/27312774-1000-1000/image-1.jpg?v=638273237701200000"
-                alt="Pantalón Denim">
-            <h2>Pantalón Denim</h2>
-            <p class="price">$39.99</p>
-            <label for="size3">Talla:</label>
-            <select id="size3" class="size-select">
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-            </select>
-            <label for="qty3">Cantidad:</label>
-            <input type="number" id="qty3" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-            <button class="buy-button">Añadir al carrito</button>
-        </article>
-
-        <!-- Product 4 -->
-        <article class="product-card">
-            <img src="https://fastathletics.es/wp-content/uploads/2022/06/CAMISETA-DEPORTIVA-MUJER-ROJA-READY-.jpg"
-                alt="Camiseta Deportiva">
-            <h2>Camiseta Deportiva</h2>
-            <p class="price">$24.99</p>
-            <label for="size4">Talla:</label>
-            <select id="size4" class="size-select">
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-            </select>
-            <label for="qty4">Cantidad:</label>
-            <input type="number" id="qty4" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-            <button class="buy-button">Añadir al carrito</button>
-        </article>
-
-        <!-- Product 5 -->
-        <article class="product-card">
-            <img src="https://edge.disstg.commercecloud.salesforce.com/dw/image/v2/BGHZ_STG/on/demandware.static/-/Sites-master-catalog-tricot/default/dwfcdf215e/images/large/MD531169-2.jpg?sw=1000&sh=1000&sm=fit"
-                alt="Falda Larga">
-            <h2>Falda Larga</h2>
-            <p class="price">$34.99</p>
-            <label for="size5">Talla:</label>
-            <select id="size5" class="size-select">
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-            </select>
-            <label for="qty5">Cantidad:</label>
-            <input type="number" id="qty5" class="quantity-input" min="1" value="1" style="width: 50px; margin-bottom: 10px;">
-            <button class="buy-button">Añadir al carrito</button>
-        </article>
+    <main>
+        <h2 class="text-center mb-2">Elegancia y Estilo Femenino</h2>
+        <!-- El contenedor se llena dinámicamente desde Mujer.js -->
+        <div id="productos-mujeres" class="product-grid"></div>
     </main>
 
-<<<<<<< HEAD
-    <script type="module" src="../js/app.js"></script>
-    <script type="module" src="../js/Carrito.js" defer></script>
-    <script type="module" src="../js/Mujer.js" defer></script>
-=======
-    <script src="../app.js"></script>
-    <script src="../Carrito.js" defer></script>
-    <script src="../Mujer.js" defer></script>
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
     <a href="Carrito.html" class="btn-ver-carrito">🛒</a>
-    <footer>© 2026 UrbanStyle. Todos los derechos reservados.</footer>
+    
+    <footer>
+        <p>© 2026 UrbanStyle. Todos los derechos reservados.</p>
+        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 10px;">Diseño Premium Minimalista</p>
+    </footer>
+
+    <script type="module" src="../js/app.js"></script>
+    <script type="module" src="../js/Carrito.js"></script>
+    <script type="module" src="../js/Mujer.js"></script>
+
 </body>
 
-</html>
+</html>

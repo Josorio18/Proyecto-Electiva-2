@@ -2,60 +2,63 @@
 <html lang="es">
 
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width,initial-scale=1" />
-	<title>Iniciar sesión</title>
-
-	<link rel="stylesheet" href="../CSS/style.css">
-	<link rel="stylesheet" href="../CSS/Login.css">
-	<script>
-		if (localStorage.getItem('currentUser')) {
-			if (window.history.length > 2) {
-				window.history.back();
-			} else {
-				window.location.replace('index.html');
-			}
-		}
-	</script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Inicia sesión en UrbanStyle para acceder a tu carrito guardado y ofertas exclusivas.">
+    <title>UrbanStyle - Iniciar Sesión</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script>
+        if (localStorage.getItem('currentUser') && localStorage.getItem('currentUser') !== 'guest') {
+            window.location.replace('index.html');
+        }
+    </script>
 </head>
 
-<body>
-	<header>
-		<h1>UrbanStyle</h1>
-	</header>
-	<main class="card">
-		<h1>Iniciar sesión</h1>
+<body class="auth-page" style="background: var(--bg-color); display: flex; flex-direction: column; min-height: 100vh; justify-content: center; align-items: center;">
+    
+    <header style="position: fixed; top: 0; width: 100%;">
+        <div class="logo-container">
+            <h1 style="background: linear-gradient(45deg, #1a1a1a, var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">UrbanStyle</h1>
+        </div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="Login.html" class="active">Login</a>
+        </nav>
+    </header>
 
+    <main class="auth-card" style="background: white; padding: 3rem; border-radius: 25px; box-shadow: var(--card-shadow); width: 90%; max-width: 400px; margin-top: 80px;">
+        <h2 class="text-center" style="font-size: 2rem; margin-bottom: 2rem; letter-spacing: -1px;">Bienvenido</h2>
+        <div id="passError" class="error-msg" style="color: #F44336; margin-bottom: 1rem; text-align: center; font-size: 0.9rem;"></div>
+        
+        <form id="loginForm">
+            <div class="form-group mb-2">
+                <label for="email" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; color: #888;">CORREO ELECTRÓNICO</label>
+                <input type="email" id="email" placeholder="ejemplo@correo.com" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+            </div>
+            
+            <div class="form-group mb-2">
+                <label for="password" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; color: #888;">CONTRASEÑA</label>
+                <input type="password" id="password" placeholder="••••••••" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;">
+            </div>
+            
+            <button type="submit" class="btn-primary" style="width: 100%; border: none; padding: 1.2rem; cursor: pointer; border-radius: 15px; margin-top: 1rem;">Iniciar Sesión</button>
+        </form>
+        
+        <div class="auth-footer text-center mt-2" style="font-size: 0.9rem; color: #666;">
+            ¿No tienes cuenta? <a href="Registro.html" style="color: var(--accent-color); font-weight: 700;">Regístrate</a>
+        </div>
+    </main>
 
-		<form id="loginForm">
-			<label for="email">Correo electrónico</label>
-			<input id="email" type="email" required placeholder="tucorreo@ejemplo.com">
-			<div id="emailError" class="error">Introduce un correo válido.</div>
+    <footer style="position: fixed; bottom: 0; width: 100%;">
+        <p>© 2026 UrbanStyle. Todos los derechos reservados.</p>
+    </footer>
 
-			<label for="password">Contraseña</label>
-			<input id="password" type="password" required placeholder="Contraseña">
-			<div id="passError" class="error">Introduce la contraseña.</div>
+    <script type="module" src="../js/app.js"></script>
+    <script type="module" src="../js/Login.js"></script>
 
-			<div class="row">
-				<label><input id="remember" type="checkbox"> Recuérdame</label>
-			</div>
-
-			<div class="form-actions">
-				<button type="submit">Entrar</button>
-			</div>
-			<p style="text-align:center; margin-top:15px; font-size: 0.9em;">¿No tienes cuenta? <a href="Registro.html"
-					style="color:var(--primary-color);">Regístrate aquí</a></p>
-		</form>
-	</main>
-<<<<<<< HEAD
-	<script type="module" src="../js/app.js"></script>
-    <script type="module" src="../js/Login.js" defer></script>
-=======
-	<script src="../app.js"></script>
-	<script src="../Login.js"></script>
->>>>>>> 40ec483b8f0444b7dc966516ce7d0863691327d1
-	<a href="Carrito.html" class="btn-ver-carrito">🛒</a>
-	<footer>© 2026 UrbanStyle. Todos los derechos reservados.</footer>
 </body>
 
-</html>
+</html>
