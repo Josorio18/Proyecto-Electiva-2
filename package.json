@@ -1,17 +1,26 @@
 {
   "name": "proyecto-electiva-2",
   "version": "1.0.0",
-  "description": "Proyecto de Electiva II - UrbanStyle con TypeScript",
-  "main": "dist/js/index.js",
+  "description": "Proyecto de Electiva II - UrbanStyle con React y Vite",
+  "main": "index.jsx",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "start": "npx -y http-server ./ -p 5500 -o /dist/html/index.html"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "start": "http-server ./ -p 8080 -o /index.html"
   },
-  "keywords": [],
+  "keywords": ["tienda", "ropa", "urbano", "react"],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0"
+  },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^4.5.0"
   }
 }
+
