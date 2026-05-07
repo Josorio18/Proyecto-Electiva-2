@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layaout';
+import Layout from './components/Layout';
+import ProductCard from './components/ProductCard';
 import './App.css';
+
+// Componente para mostrar carga
+const Loading = () => (
+    <div className="text-center" style={{ padding: '3rem' }}>
+        <div className="loading-spinner"></div>
+        <p>Cargando productos...</p>
+    </div>
+);
 
 // Páginas/Componentes principales
 const Home = () => (
@@ -18,77 +27,28 @@ const Home = () => (
     </div>
 );
 
-const Hombres = () => (
-    <div>
-        <h2 className="text-center mb-2">Colección de Hombres</h2>
-        <p className="text-center">Descubre nuestras prendas exclusivas para hombres</p>
-        <div className="product-grid">
-            <div className="product-card">
-                <h3>Camiseta Urban</h3>
-                <p className="price">$29.99</p>
-                <button className="buy-button">Añadir al Carrito</button>
-            </div>
-            <div className="product-card">
-                <h3>Pantalón Casual</h3>
-                <p className="price">$49.99</p>
-                <button className="buy-button">Añadir al Carrito</button>
-            </div>
-            <div className="product-card">
-                <h3>Chaqueta Denim</h3>
-                <p className="price">$79.99</p>
-                <button className="buy-button">Añadir al Carrito</button>
-            </div>
-        </div>
-    </div>
-);
+const ProductList = ({ category, products, loading }) => {
+    if (loading) return <Loading />;
+    
+    const filteredProducts = category === 'accesorios' 
+        ? products.filter(p => p.category === 'jewelery' || p.category === 'electronics')
+        : products.filter(p => p.category === category);
 
-const Mujeres = () => (
-    <div>
-        <h2 className="text-center mb-2">Colección de Mujeres</h2>
-        <p className="text-center">Encuentra los mejores estilos para mujeres</p>
-        <div className="product-grid">
-            <div className="product-card">
-                <h3>Blusa Elegante</h3>
-                <p className="price">$34.99</p>
-                <button className="buy-button">Añadir al Carrito</button>
-            </div>
-            <div className="product-card">
-                <h3>Falda Fashion</h3>
-                <p className="price">$54.99</p>
-                <button className="buy-button">Añadir al Carrito</button>
-            </div>
-            <div className="product-card">
-                <h3>Vestido Casual</h3>
-                <p className="price">$64.99</p>
-                <button className="buy-button">Añadir al Carrito</button>
+    return (
+        <div>
+            <h2 className="text-center mb-2" style={{ textTransform: 'capitalize' }}>
+                {category === 'men\'s clothing' ? 'Colección de Hombres' : 
+                 category === 'women\'s clothing' ? 'Colección de Mujeres' : 
+                 'Accesorios'}
+            </h2>
+            <div className="product-grid">
+                {filteredProducts.map(product => (
+                    <ProductCard key={product.id} product={product} />
+                ))}
             </div>
         </div>
-    </div>
-);
-
-const Accesorios = () => (
-    <div>
-        <h2 className="text-center mb-2">Accesorios</h2>
-        <p className="text-center">Complementa tu estilo con nuestros accesorios</p>
-        <div className="product-grid">
-            <div className="product-card">
-                <h3>Gorro Urban</h3>
-                <p className="price">$14.99</p>
-                <button className="buy-button">Añadir al Carrito</button>
-            </div>
-            <div className="product-card">
-                <h3>Bufanda Premium</h3>
-                <p className="price">$19.99</p>
-                <button className="buy-button">Añadir al Carrito</button>
-            </div>
-            <div className="product-card">
-                <h3>Mochila Estilo</h3>
-                <p className="price">$44.99</p>
-                <button className="buy-button">Añadir al Carrito</button>
-            </div>
-        </div>
-    </div>
-);
+    );
+};
 
 const Carrito = () => (
     <div className="text-center">
@@ -232,14 +192,36 @@ const NotFound = () => (
 );
 
 function App() {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch('https://fakestoreapi.com/products')
+            .then(res => res.json())
+            .then(data => {
+                setProducts(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Error fetching products:', err);
+                setLoading(false);
+            });
+    }, []);
+
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Home />} />
-                    <Route path="hombres" element={<Hombres />} />
-                    <Route path="mujeres" element={<Mujeres />} />
-                    <Route path="accesorios" element={<Accesorios />} />
+                    <Route path="hombres" element={
+                        <ProductList category="men's clothing" products={products} loading={loading} />
+                    } />
+                    <Route path="mujeres" element={
+                        <ProductList category="women's clothing" products={products} loading={loading} />
+                    } />
+                    <Route path="accesorios" element={
+                        <ProductList category="accesorios" products={products} loading={loading} />
+                    } />
                     <Route path="carrito" element={<Carrito />} />
                     <Route path="login" element={<Login />} />
                     <Route path="registro" element={<Registro />} />
@@ -250,4 +232,4 @@ function App() {
     );
 }
 
-export default App;
+export default App;
