@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import ProductCard from './components/ProductCard';
 import './App.css';
@@ -336,8 +336,8 @@ function App() {
                             onClear={() => setCart([])} 
                         />
                     } />
-                    <Route path="login" element={<Login onLogin={handleLogin} />} />
-                    <Route path="registro" element={<Registro />} />
+                    <Route path="login" element={user ? <Navigate to="/" /> : <Login onLogin={handleLogin} />} />
+                    <Route path="registro" element={user ? <Navigate to="/" /> : <Registro />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
             </Routes>
