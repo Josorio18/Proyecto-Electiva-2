@@ -4,29 +4,6 @@ import Layout from './components/Layout';
 import ProductCard from './components/ProductCard';
 import './App.css';
 
-// Componente para mostrar carga
-const Loading = () => (
-    <div className="text-center" style={{ padding: '3rem' }}>
-        <div className="loading-spinner"></div>
-        <p>Cargando productos...</p>
-    </div>
-);
-
-// Páginas/Componentes principales
-const Home = () => (
-    <div className="text-center">
-        <div className="hero-container">
-            <div className="hero-overlay">
-                <h2>Bienvenido a UrbanStyle</h2>
-                <p>La mejor tienda de ropa urbana del momento</p>
-            </div>
-        </div>
-        <div className="mt-2 mb-2">
-            <p>Explora nuestras categorías: Hombres, Mujeres y Accesorios</p>
-        </div>
-    </div>
-);
-
 // Utilidad para traducir términos comunes de la API
 const translateProduct = (product) => {
     const translations = {
