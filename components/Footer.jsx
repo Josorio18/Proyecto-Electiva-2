@@ -24,9 +24,8 @@ const Footer = () => {
                     <h4>Navegación</h4>
                     <ul>
                         <li><Link to="/">Inicio</Link></li>
-                        <li><Link to="/hombres">Hombres</Link></li>
-                        <li><Link to="/mujeres">Mujeres</Link></li>
-                        <li><Link to="/accesorios">Accesorios</Link></li>
+                        <li><Link to="/catalog">Catálogo</Link></li>
+                        <li><Link to="/community">Comunidad</Link></li>
                     </ul>
                 </div>
 
@@ -34,10 +33,11 @@ const Footer = () => {
                     <h4>Cuenta</h4>
                     <ul>
                         <li><Link to="/login">Iniciar Sesión</Link></li>
-                        <li><Link to="/registro">Registrarse</Link></li>
-                        <li><Link to="/carrito">Mi Carrito</Link></li>
+                        <li><Link to="/register">Registrarse</Link></li>
+                        <li><Link to="/cart">Mi Carrito</Link></li>
                     </ul>
                 </div>
+
 
                 <div className="footer-section">
                     <h4>Contacto</h4>

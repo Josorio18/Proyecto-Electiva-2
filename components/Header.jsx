@@ -6,23 +6,28 @@ const Header = ({ user, onLogout, cartCount }) => {
     return (
         <header>
             <div className="logo-container">
-                <h1>UrbanStyle</h1>
+                <Link to="/" style={{ textDecoration: 'none' }}>
+                    <h1>UrbanStyle <span style={{ fontSize: '0.8rem', verticalAlign: 'middle' }}>V2</span></h1>
+                </Link>
             </div>
             <nav>
                 <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Inicio</Link>
-                <Link to="/hombres" className={location.pathname === '/hombres' ? 'active' : ''}>Hombres</Link>
-                <Link to="/mujeres" className={location.pathname === '/mujeres' ? 'active' : ''}>Mujeres</Link>
-                <Link to="/accesorios" className={location.pathname === '/accesorios' ? 'active' : ''}>Accesorios</Link>
-                <Link to="/carrito" className={location.pathname === '/carrito' ? 'active' : ''}>
-                    Carrito {cartCount > 0 && <span style={{ background: '#d4af37', color: 'black', padding: '2px 6px', borderRadius: '50%', fontSize: '0.8rem' }}>{cartCount}</span>}
+                <Link to="/catalog" className={location.pathname.startsWith('/catalog') ? 'active' : ''}>Catálogo</Link>
+                <Link to="/community" className={location.pathname === '/community' ? 'active' : ''}>Comunidad</Link>
+                <Link to="/cart" className={location.pathname === '/cart' ? 'active' : ''}>
+                    Carrito {cartCount > 0 && <span style={{ background: 'var(--accent-color)', color: 'var(--primary-color)', padding: '2px 8px', borderRadius: '10px', fontSize: '0.75rem', fontWeight: 'bold' }}>{cartCount}</span>}
                 </Link>
+                
                 {user ? (
-                    <>
-                        <span className="user-welcome">Hola, {user.split('@')[0]}</span>
-                        <button onClick={onLogout} className="logout-link" style={{ border: 'none', cursor: 'pointer' }}>Cerrar Sesión</button>
-                    </>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''} style={{ fontWeight: 'bold' }}>
+                           {user.name.split(' ')[0]}
+                        </Link>
+                        <Link to="/admin" className={location.pathname === '/admin' ? 'active' : ''}>Admin</Link>
+                        <button onClick={onLogout} className="logout-link" style={{ border: 'none', cursor: 'pointer', fontSize: '0.8rem' }}>Salir</button>
+                    </div>
                 ) : (
-                    <Link to="/login" className={location.pathname === '/login' ? 'active' : ''}>Login</Link>
+                    <Link to="/login" className={location.pathname === '/login' ? 'active' : ''}>Ingresar</Link>
                 )}
             </nav>
         </header>
@@ -30,3 +35,4 @@ const Header = ({ user, onLogout, cartCount }) => {
 };
 
 export default Header;
+

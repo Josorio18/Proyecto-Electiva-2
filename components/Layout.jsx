@@ -12,10 +12,11 @@ const Layout = ({ user, onLogout, cartCount }) => {
                 <Outlet />
             </main>
 
-            <Link to="/carrito" className="btn-ver-carrito">
+            <Link to="/cart" className="btn-ver-carrito">
                 🛒
-                {cartCount > 0 && <span style={{ position: 'absolute', top: '0', right: '0', background: '#d4af37', color: 'black', borderRadius: '50%', padding: '2px 6px', fontSize: '0.8rem', fontWeight: 'bold' }}>{cartCount}</span>}
+                {cartCount > 0 && <span style={{ position: 'absolute', top: '0', right: '0', background: 'var(--accent-color)', color: 'var(--primary-color)', borderRadius: '50%', padding: '2px 8px', fontSize: '0.8rem', fontWeight: 'bold' }}>{cartCount}</span>}
             </Link>
+
 
             <Footer />
         </>
